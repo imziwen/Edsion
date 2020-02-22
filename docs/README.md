@@ -16,9 +16,9 @@ footer: 好记性？烂笔头？的地方
 ---
 
 ::: tip 🤔
-我的键盘 ⌨️ 只有三个键：Ctrl、C、V
+我的键盘 ⌨️ 只有三个键：Ctrl、C、V;
 
-高级 CV 工程师
+高级 CV 工程师;
 
 hello word :) :clap: :+1: :tada: :100:
 :::

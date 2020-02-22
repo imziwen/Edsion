@@ -2,7 +2,7 @@
 home: true
 # heroImage: http://resource.muyiy.cn/image/javascript.gif
 heroImage: /img/Javascript.gif
-actionText: 快来吧 😄→
+actionText: 快来吧 →
 actionLink: /question/
 
 features:

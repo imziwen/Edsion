@@ -7,7 +7,7 @@
 
 - 创建对象的几种方法
   ```js
-  // 第一种方式：字面量
+  // 第一种方式：字面量创建
   var n1 = { name: "ziwen" };
   var n2 = new Object({ name: "ziwen" }); // {name: 'ziwen'}
   // 第二种方式：通过构造函数

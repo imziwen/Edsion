@@ -1,0 +1,38 @@
+.theorem
+  margin 1rem 0
+  padding .1rem 1.5rem
+  border-radius 0.4rem
+  background-color #f0f4f8
+  .title
+    font-weight bold
+
+/*自定义容器*/
+.custom-block
+  transition: all 0.3s
+  &:hover
+    // background: #dfe3e6
+    box-shadow: 5px 10px 10px #d9e0e6
+  &.right
+    color transparentify($textColor, 0.4)
+    font-size 0.9rem
+    text-align right
+  &.details
+    display: block;
+    position: relative;
+    border-radius: 2px;
+    margin: 1.6em 0;
+    padding: 1.6em;
+    background-color: #eee;
+    summary 
+      cursor pointer
+      outline none
+      user-select none
+.theme-default-content:not(.custom){
+    // margin-right: 80px
+  }
+.home 
+  .hero 
+    img
+      transition: all 0.3s
+      border-radius: 10px
+       

@@ -71,12 +71,26 @@ export default {
         b: 4
       }
     };
+  },
+  created: function() {
+    class M {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+      }
+      add() {
+        return this.x + this.y;
+      }
+    }
   }
+  const m = new M(1,2);
+  console.log(m.add());
+
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="css">
 h1,
 h2 {
   font-weight: normal;

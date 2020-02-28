@@ -65,7 +65,7 @@ module.exports = {
       "/question/": [
         {
           title: "JavaScript",
-          children: ["/question/1/js.md"]
+          children: ["/question/1/js.md", "/question/1/write.md"]
         },
         {
           title: "HTML",

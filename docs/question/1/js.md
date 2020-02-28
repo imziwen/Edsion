@@ -24,6 +24,29 @@
 
   ![原型链](/img/question/js/yuanxing.png)
 
+**[理解 constructor、prototype、**proto**和原型链](https://juejin.im/post/5cc99fdfe51d453b440236c3)**
+:::
+
+## 闭包？
+
+::: tip ⬇️⬇️⬇️⬇️⬇️⬇️
+::: cd
+
+简单理解就是：函数 `A` 中包含函数 `B`，`return` 出函数 `B` 后，函数 `B` 还能访问函数 `A` 中的变量。
+
+```js
+function A() {
+  var n = 66;
+  function B() {
+    console.log(n);
+  }
+  return B;
+}
+
+var result = A();
+result(); // 66
+```
+
 :::
 
 ## 1. 数组去重的简单几种方法

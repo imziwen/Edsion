@@ -1,5 +1,11 @@
 # vue 小记
 
+[2020年大厂面试指南 - Vue篇](https://juejin.im/post/5e4d24cce51d4526f76eb2ba)
+
+[「Vue实践」武装你的前端项目](https://juejin.im/post/5cab64ce5188251b19486041)
+
+[30 道 Vue 面试题，内含详细讲解（涵盖入门到精通，自测 Vue 掌握程度）](https://juejin.im/post/5d59f2a451882549be53b170)
+
 ## vue 双向绑定
 
 :::tip vue 双向绑定 1

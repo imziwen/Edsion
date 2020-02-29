@@ -1,5 +1,15 @@
 # JS 基础小记
 
+[挑战一轮大厂后的面试总结 (含六个方向) - javascript 篇(万字长文)](https://juejin.im/post/5e523e726fb9a07c9a195a95)
+
+[「硬核 JS」一次搞懂 JS 运行机制](https://juejin.im/post/5e22b391f265da3e204d8c14#heading-21)
+
+[看完这几道 JavaScript 面试题，让你与考官对答如流（上）](https://juejin.im/post/5e166cc5f265da5d57543102)
+
+[看完这几道 JavaScript 面试题，让你与考官对答如流（中）](https://juejin.im/post/5e1bb37a5188254dbc25de92#heading-18)
+
+[看完这几道 JavaScript 面试题，让你与考官对答如流（下）](https://juejin.im/post/5e1faa3d51882520a167df0e)s
+
 ## 0. 原型链类
 
 ::: tip ⬇️⬇️⬇️⬇️⬇️⬇️

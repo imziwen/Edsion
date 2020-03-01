@@ -415,6 +415,8 @@ null == undefined; // true
 null === undefined; // false
 ```
 
+**一句话总结：`undefined`表示值不存在，`null`表示值存在但是为空，没有意义。**
+
 :::
 
 ## 11. 判断数据类型的方法

@@ -12,7 +12,7 @@
 
 ## 0. 原型链类
 
-::: tip ⬇️⬇️⬇️⬇️⬇️⬇️
+::: tip
 ::: cd
 
 - 创建对象的几种方法
@@ -34,7 +34,109 @@
 
   ![原型链](/img/question/js/yuanxing.png)
 
+通过`[[__proto__]]`这个属性组成的链，就叫做原型链。原型链的顶端是 null，往下是 Object 对象，只要是对象或函数类型都会有`[[__proto__]]`这个属性，大家都是 js-family 的一员。
+
 **[理解 constructor、prototype、**proto**和原型链](https://juejin.im/post/5cc99fdfe51d453b440236c3)**
+:::
+
+## typeof 与 instanceof 有什么区别
+
+::: tip
+::: cd
+
+`JavaScript` 中的数据类型分为两类：基本数据类型、对象类型。
+
+基本数据类型：`Number String Boolean Null Undefined Symbol BigInt`
+
+对象类型：Object（引用类型）
+
+- typeof x 返回值的类型：
+
+```js
+typeof 1; // Number
+typeof "1"; // String
+typeof true; // Boolean
+typeof null; // Object
+typeof undefined; // undefined
+typeof function() {}; // function
+typeof {}; // Object
+```
+
+- instanceof 用于判断该对象是否在目标实例的原型链上。
+
+语法：`object instanceof constructor`(某个实例对象 instanceof 某个构造函数)
+
+可以判断一个实例对象是否是其父类型或者祖先类型的实例。
+
+```js
+function A(a) {
+  this.a = a;
+}
+let b = new A(1);
+console.log(b instanceof A); // true
+console.log(b instanceof Object); // true
+```
+
+:::
+
+## NaN 与 undefined 与 null
+
+::: tip
+::: cd
+
+- **NaN 是一个全局对象的属性。代表非数字的特殊值，用于表示某个值不是数字。**
+
+NaN 是 Number 对象中的静态属性
+
+```js
+typeof NaN; // Number
+NaN === NaN; // false
+isNaN(NaN); // true    ES6中新增
+isNaN(Number.NaN); // true
+```
+
+请注意 `isNaN()`和 `Number.isNaN()`之间的区别：如果当前值是 `NaN`，或者将其强制转换为数字后将是 `NaN`，则前者将返回 `true`。而后者仅当值当前为 `NaN` 时才为 `true`：
+
+```JS
+isNaN('ziwen'); // true
+Number.isNaN('ziwen'); // false
+```
+
+- **`undefined` 是未指定值的变量的默认值，或者没有显式返回值的函数，对象中不存在的属性，这些 `JavaScript` 都会为其分配 `undefined` 值。**
+
+```js
+let name;
+const say = () => {};
+const person = {
+  name: "ziwen",
+  age: "18"
+};
+console.log(name); // undefined
+console.log(say()); // undefined
+console.log(person["company"]); // undefined
+```
+
+- **`null`是不代表任何值的值。`null`值表示一个空对象指针，而这也正是使用`typeof`操作符检测`null`值时会返回`object`的原因。**
+
+**如果定义的变量准备在将来保存对象，最好将该变量初始化为`null`。**
+
+实际上，`undefined`值是派生自`null`值的，因此 ECMA-262 规定它们的相等性测试要返回`true`：
+
+```js
+null == undefined; // true
+null === undefined; // false
+```
+
+**一句话总结：`undefined`表示值不存在，`null`表示值存在但是为空，没有意义。**
+
+:::
+gfg
+
+## 实现继承的几种方法
+
+::: tip
+::: cd
+
 :::
 
 ## 闭包？
@@ -382,40 +484,6 @@ const m2 = new Map([["c", 2]]);
 const m3 = new Map(m2);
 m3.get("c"); // 2
 ```
-
-:::
-
-## 10. undefined 和 null 有什么区别
-
-::: tip ⬇️⬇️⬇️⬇️⬇️⬇️
-::: cd
-
-`undefined` 是未指定值的变量的默认值，或者没有显式返回值的函数，对象中不存在的属性，这些 `JavaScript` 都会为其分配 `undefined` 值。
-
-```js
-let name;
-const say = () => {};
-const person = {
-  name: "ziwen",
-  age: "18"
-};
-console.log(name); // undefined
-console.log(say()); // undefined
-console.log(person["company"]); // undefined
-```
-
-`null`是不代表任何值的值。`null`值表示一个空对象指针，而这也正是使用`typeof`操作符检测`null`值时会返回`object`的原因。
-
-**如果定义的变量准备在将来保存对象，最好将该变量初始化为`null`。**
-
-实际上，`undefined`值是派生自`null`值的，因此 ECMA-262 规定它们的相等性测试要返回`true`：
-
-```js
-null == undefined; // true
-null === undefined; // false
-```
-
-**一句话总结：`undefined`表示值不存在，`null`表示值存在但是为空，没有意义。**
 
 :::
 

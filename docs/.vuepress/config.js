@@ -93,7 +93,7 @@ module.exports = {
         }
       ]
     },
-    sidebarDepth: 2,
+    sidebarDepth: 3,
     configureWebpack: {
       resolve: {
         alias: {
@@ -128,7 +128,7 @@ module.exports = {
         type: "cd",
         defaultTitle: "点击查看答案",
         before: info =>
-          `<details open class="custom-block details"><summary>${info}</summary>`,
+          `<details class="custom-block details tip"><summary>${info}</summary>`,
         after: `</details>`
       }
     ],

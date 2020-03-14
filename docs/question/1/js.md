@@ -132,10 +132,93 @@ null === undefined; // false
 
 ::: cd
 
-- 组合继承
-- 寄生组合继承
-- Class 继承
-  :::
+### 组合继承
+
+```js
+// 父类
+function Parent(n) {
+  this.name = n;
+}
+Parent.prototype.say = function() {
+  console.log(this.name);
+};
+
+// 子类
+function Child(n) {
+  // 继承父类属性
+  Parent.call(this, n);
+}
+// 改变子类的原型为 new Parent()来继承父类的函数
+Child.prototype = new Parent();
+
+var child = new Child("ziwen");
+
+child.say(); // ziwen
+child instanceof Parent; // true
+```
+
+**优点：构造函数可以传参，不会与父类引用属性共享，可以复用父类的函数。**
+
+**缺点：继承父类函数的时候调用了父类构造函数，导致子类的原型上多了不需要的父类属性，存在内存上的浪费。**
+
+### 寄生组合继承
+
+```js
+// 寄生组合继承
+function Parent(n) {
+  this.name = n;
+}
+Parent.prototype.say = function() {
+  console.log(this.name);
+};
+
+function Child(n) {
+  // 继承父类属性
+  Parent.call(this, n);
+}
+// 子类原型等于一个原型为父类原型的新对象，实现继承
+Child.prototype = Object.create(Parent.prototype);
+// 重新指定constructor
+Child.prototype.constructor = Child;
+
+var child = new Child("ziwen");
+
+child.say(); // 'ziwen'
+child instanceof Parent; // true
+```
+
+**优点：优化掉了继承父类函数时调用构造函数问题；解决了无用父类属性问题，正确找到子类的构造函数。**
+
+### Class 继承
+
+```js
+class Parent {
+  constructor(n) {
+    this.name = n;
+  }
+
+  say() {
+    console.log(this.name);
+  }
+}
+// 核心部分
+class Child extends Parent {
+  constructor(n, a) {
+    super(n, a);
+    this.age = a;
+  }
+}
+
+let child = new Child("ziwen", 18);
+
+child.say(); // ziwen
+
+child instanceof Parent; // true
+```
+
+**class 实现继承的核心在于使用 extends 表明继承自哪个父类，并且在子类构造函数中必须调用 super，因为这段代码可以看成 Parent.call(this,n,a)。**
+
+:::
 
 ## 闭包？
 
@@ -213,9 +296,88 @@ console.log(result); // -> [1, 2, 3, 4, 5]
 
 :::
 
-## 2. Promise 异常捕获
+## 2. 简洁版 Promise
 
 :::cd
+
+众所周知，Promise 需要 new，构造函数无疑。
+
+关键点：
+
+- 三个状态：`pending`、`fulfilled`、`rejected` (等待态、成功态、失败态)
+- 结果分为两种：`pending => fulfilled` 和 `pending => rejected` 能且只能朝着其中一个方向进行。到达`fulfilled`或者`rejected`时不能转变，且必须有一个不可改变的值或者原因。
+- 有一个`then`方法，里边有两个参数：`onFulfilled`和`onRejected`。当状态`state`为`fulfilled`，则执行`onFulfilled`，传入`this.value`。当状态`state`为`rejected`，则执行`onRejected`，传入`this.reason`
+
+```js
+class Promise {
+  constructor(executor){
+    // 初始化等待态
+    this.state = 'pending';
+    // 定义成功的值
+    this.value = undefined;
+    // 定义失败的原因
+    this.reason = undefined;
+    // 成功态存放的数组
+    this.onResolvedCallbacks = [];
+    // 失败态存放的数组
+    this.onRejectedCallbacks = [];
+    // 定义resolve函数
+    let resolve = value => {
+      // 如果state改变了，resolve就会调用失败
+      if(this.state === 'pending'){
+        // state状态转变为成功态
+        this.state = 'fulfilled';
+        // 存储成功的值
+        this.value = value;
+        // 对应执行异步任务时，resolve执行时调用成功数组的函数
+        this.onResolvedCallbacks.forEach(fn => fn());
+      }
+    };
+    let rejected = reason => {
+      if(this.state === 'pending'){
+        this.state = 'rejected';
+        this.reason = reason;
+        // 对应执行异步任务时，reject执行时调用成功数组的函数
+        this.onRejectedCallbacks.forEach(fn => fn());
+      }
+    };
+    // 如果executor执行报错，直接执行reject
+    try{
+      executor(resolve,reject);
+    }catch(error){
+      reject(error);
+    }
+
+    // then方法传入两个参数onFulfilled,onRejected
+    then(onFulfilled,onRejected){
+      // 判断状态为fulfilled，执行onFulfilled，传入成功的值
+      if(this.state === 'fulfilled'){
+        onFulfilled(this.value);
+      };
+      // 判断状态为rejected，执行onRejected，传入失败的原因
+      if(this.state === 'rejected'){
+        onRejected(this.reason);
+      };
+      // 以上基本可以实现简单的同步代码，但是当resolve在异步任务内执行时，then的时候状态还是pending等待状态，我们就要在then调用的时候，将成功和失败存到各自的数组，一旦resolve或者reject就调用它们
+
+      if(this.state === 'pending'){
+        this.onResolvedCallbacks.push(() => {
+          onFulfilled(this.value);
+        })
+
+        this.onRejectedCallbacks.push(() => {
+          onRejected(this.reason);
+        })
+      }
+    }
+  }
+}
+
+```
+
+[参考 0](https://juejin.im/post/5b2f02cd5188252b937548ab)
+
+[参考 1](https://promisesaplus.com/)
 :::
 
 ## 3. forEach、map 和 filter 的区别
@@ -573,4 +735,30 @@ let say = () => {};
 const say = new Function("a", "b");
 ```
 
+:::
+
+## [].slice.call(arguments)
+
+::: cd
+
+实现的功能：把类数组对象转为数组对象
+
+```js
+[].slice.call(arguments);
+// 等效于
+Array.prototype.slice.call(arguments);
+```
+
+slice()方法可以从已有数组中返回选定的元素，不会改变原来的数组，而是返回一个子数组。
+
+那么问题来了，`arguments` 不是数组对象啊，不能调用数组的方法，那....如何转为数组对象？
+大哥们来了：`call()`函数和 `apply()`函数，这俩大哥都可以改变 `this` 的指向，函数运行时的作用域。区别就是传参不一样，第一个参数都是一个对象 `this`，`apply` 第二个参数是一个数组，`call` 可以有 `N`个参数。
+
+slice 的原理就是根据传入的原数组或者类数组进行遍历获取，赋给新数组然后返回。如果没有参数便复制整个原数组或者类数组，赋值给新数组并返回。
+
+当`[].slice.call()`传入 `arguments` 对象的时候，通过 `call` 方法改变原来 `slice` 方法的 `this` 指向，使其指向 `arguments`，并对 `arguments` 进行复制操作，返回一个新数组，以完成 `arguments` 类数组转为数组的目的。
+
+**可以理解为让类数组调用数组的方法**。
+
+`[].slice.call(arguments)`
 :::

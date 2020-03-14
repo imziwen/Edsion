@@ -76,19 +76,19 @@ module.exports = {
           children: ["/question/0/css.md"]
         },
         {
-          title: "前端框架",
+          title: "Framework",
           children: ["/question/2/mvvm.md"]
         },
         {
-          title: "浏览器",
+          title: "Browser",
           children: ["/question/4/browser.md"]
         },
         {
-          title: "性能优化",
+          title: "Performance",
           children: ["/question/5/performance.md"]
         },
         {
-          title: "工程化",
+          title: "Project",
           children: ["/question/6/project.md"]
         }
       ]

@@ -1,6 +1,6 @@
 module.exports = {
   title: "子文",
-  description: "前端学习笔记，前端进阶，大前端",
+  description: "前端基础笔记、前端进阶、大前端、JavaScript",
   base: "/",
   host: "0.0.0.0",
   head: [
@@ -81,8 +81,14 @@ module.exports = {
           children: ["/question/2/mvvm.md"]
         },
         {
-          title: "Browser",
-          children: ["/question/4/browser.md"]
+          title: "Network",
+          children: [
+            "/question/4/network.md",
+            "/question/4/tcp.md",
+            "/question/4/udp.md",
+            "/question/4/https.md",
+            "/question/4/browsercache.md"
+          ]
         },
         {
           title: "Performance",

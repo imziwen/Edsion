@@ -1,20 +1,9 @@
-# question
-sdfdsf
-## ddfsdfdsf
-dsf
-d
-fsd
-f
-dfdsf
+# 笔记本
 
-### fsdfgsdfgfg
-### fsdfgsdfgfg
-### fsdfgsdfgfg
-### fsdfgsdfgfg
-### fsdfgsdfgfg
-### fsdfgsdfgfg
-### fsdfgsdfgfg
-### fsdfgsdfgfg
-### fsdfgsdfgfg
-### fsdfgsdfgfg
-### fsdfgsdfgfg
+::: tip
+工作中使用的 **前端知识** 点都逐步记录在此，方便以后的查阅。
+
+在进阶的路上前行着，诚交各路 **英雄豪杰** 。
+
+![wechat](/img/wechat.png)
+:::

@@ -1,15 +1,12 @@
-# vue 小记
+# vue 核心之双向绑定
 
-[2020年大厂面试指南 - Vue篇](https://juejin.im/post/5e4d24cce51d4526f76eb2ba)
+[2020 年大厂面试指南 - Vue 篇](https://juejin.im/post/5e4d24cce51d4526f76eb2ba)
 
-[「Vue实践」武装你的前端项目](https://juejin.im/post/5cab64ce5188251b19486041)
+[「Vue 实践」武装你的前端项目](https://juejin.im/post/5cab64ce5188251b19486041)
 
 [30 道 Vue 面试题，内含详细讲解（涵盖入门到精通，自测 Vue 掌握程度）](https://juejin.im/post/5d59f2a451882549be53b170)
 
-## vue 双向绑定
-
-:::tip vue 双向绑定 1
-:::cd
+[0 到 1 掌握：Vue 核心之数据双向绑定](https://juejin.im/post/5d421bcf6fb9a06af23853f1)
 
 双向绑定是通过**数据劫持**`Object.defineproperty()`结合**发布者-订阅者模式**的方式来实现的。
 
@@ -39,7 +36,7 @@ var vm = new Vue({
 
 `Object.defineproperty()`到底是何方神圣？详细用法请看[**这里**](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
 
-#### 思路分析
+## 思路分析
 
 其实就是数据劫持。接下来我们通过其原理实现一个简易版的 `mvvm` 双向绑定代码。
 主要包含两大重点：**数据(`data`)驱动视图(`view`)**，**视图(`view`)更新数据(`data`)**
@@ -54,16 +51,43 @@ var vm = new Vue({
 #### 实现双向绑定
 
 - 设置一个 `Observer`，用来劫持并监听所有 `data` 对象属性，如果有变化就通知订阅者。
-- 设置一个 `Warcher`，可以收到属性的变化通知并执行响应的函数，来更新视图。
+- 设置一个 `Watcher`，可以收到属性的变化通知并执行响应的函数，来更新视图。
 - 设置一个 `Dep`，用来收集订阅者，然后在 `Observer` 和 `Watcher` 之间进行统一管理。
 - 设置一个 `Compile`，用来扫描和解析每个节点的相关指令，并根据初始化模板数据以及初始化相应的订阅器。
 
-#### 1. 设置一个 Observer
+## 1. 设置一个 Observer
 
+::: t
 用来劫持并监听所有 `data` 对象属性。可以通过递归方法遍历所有属性，并用 `Object.defineProperty()`处理。
 另外需要一个 `Dep` 订阅器负责收集订阅者，然后在属性变化时执行对应订阅者的更新函数。
+:::
 
 ```js
+// 循环遍历数据对象的每个属性
+function observe() {
+  if (!data || typeof data !== "object") {
+    return;
+  }
+  Object.keys(data).forEach(function(key) {
+    defineReactive(data, key, data[key]);
+  });
+}
+// 劫持对象的get和set
+function defineReactive(data, key, val) {
+  observe(val);
+  Object.defineProperty(data, key, {
+    enumerable: true,
+    configurable: true,
+    get: function() {
+      console.log(`${key}属性被读取了...`);
+      return val;
+    },
+    set: function(newVal) {
+      console.log(`${key}属性被修改了...`);
+      console.log();
+    }
+  });
+
 ```
 
-:::
+## 2. 实现一个 Dep 订阅器（发布-订阅模式）

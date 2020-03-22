@@ -66,7 +66,12 @@ module.exports = {
       "/question/": [
         {
           title: "JavaScript",
-          children: ["/question/1/js.md", "/question/1/write.md"]
+          children: [
+            "/question/1/js.md",
+            "/question/1/write.md",
+            "/question/1/acmd.md",
+            "/question/1/0123.md"
+          ]
         },
         {
           title: "HTML",
@@ -78,7 +83,7 @@ module.exports = {
         },
         {
           title: "Framework",
-          children: ["/question/2/mvvm.md"]
+          children: ["/question/2/mvvm.md", "/question/2/vuetx.md"]
         },
         {
           title: "Network",
@@ -96,7 +101,7 @@ module.exports = {
         },
         {
           title: "Project",
-          children: ["/question/6/project.md"]
+          children: ["/question/6/project.md", "/question/6/codereview-list.md"]
         }
       ]
     },
@@ -135,8 +140,17 @@ module.exports = {
         type: "cd",
         defaultTitle: "点击查看答案",
         before: info =>
-          `<details class="custom-block details tip"><summary>${info}</summary>`,
+          `<details class="custom-block details open tip"><summary>${info}</summary>`,
         after: `</details>`
+      }
+    ],
+    [
+      "vuepress-plugin-container",
+      {
+        type: "t", // 无标题tips
+        defaultTitle: "",
+        before: info => `<div class="custom-block tip">${info}`,
+        after: `</div>`
       }
     ],
     [

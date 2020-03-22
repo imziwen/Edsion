@@ -38,8 +38,10 @@ var vm = new Vue({
 
 ## 思路分析
 
+::: t
 其实就是数据劫持。接下来我们通过其原理实现一个简易版的 `mvvm` 双向绑定代码。
 主要包含两大重点：**数据(`data`)驱动视图(`view`)**，**视图(`view`)更新数据(`data`)**
+:::
 
 ![双向绑定原理](/img/question/vue/sxbdyl.jpg)
 
@@ -64,17 +66,18 @@ var vm = new Vue({
 
 ```js
 // 循环遍历数据对象的每个属性
-function observe() {
+function observe(data) {
   if (!data || typeof data !== "object") {
     return;
   }
   Object.keys(data).forEach(function(key) {
     defineReactive(data, key, data[key]);
   });
+  return data;
 }
 // 劫持对象的get和set
 function defineReactive(data, key, val) {
-  observe(val);
+  observe(data);
   Object.defineProperty(data, key, {
     enumerable: true,
     configurable: true,
@@ -84,10 +87,68 @@ function defineReactive(data, key, val) {
     },
     set: function(newVal) {
       console.log(`${key}属性被修改了...`);
-      console.log();
+      val = newVal;
     }
   });
 
 ```
 
 ## 2. 实现一个 Dep 订阅器（发布-订阅模式）
+
+::: t
+我们需要创建一个依赖收集容器，也就是消息订阅器 Dep，用来容纳所有的`订阅者`。然后当数据变化的时候后执行对应订阅者的更新函数。
+:::
+
+订阅器 Dep:
+
+```js
+function Dep() {
+  this.subs = []; //一个数组列表,收集订阅者
+}
+Dep.prototype = {
+  addSub: function(sub) {
+    // 往订阅器数组中添加订阅者
+    this.subs.push(sub);
+  },
+  notify: function() {
+    // 通知订阅者们执行更新函数
+    this.subs.forEach(function(sub) {
+      sub.update();
+    });
+  }
+};
+Dep.target = null;
+```
+
+此时我们需要把订阅器植入到 defineReactive 中
+
+```js
+function defineReactive(data, key, val) {
+  var dep = new Dep(); // 植入订阅器
+  Object.defineProperty(data, key, {
+    enumerbal: true,
+    configurable: true,
+    get: function() {
+      if (Dep.target) {
+        dep.addSub(Dep.target);
+      }
+      return val;
+    },
+    set: function() {
+      if (newVal === val) {
+        return;
+      }
+      val = newVal;
+      dep.notify();
+    }
+  });
+}
+```
+
+`Dep.target` 是一个全局唯一的 `watcher`，同一时间只能有一个全局的 `watcher` 被计算。
+
+## 3. 实现 Watcher 订阅者
+
+::: t
+`Watcher` 订阅者在初始化的时候需要将自己添加进订阅器 `Dep` 中，只要在此时获取对应的属性值，触发对应的 `get` 函数添加订阅者 `Watcher` 操作即可。
+:::

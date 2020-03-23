@@ -8,7 +8,19 @@ module.exports = {
       "link",
       { rel: "shortcut icon", type: "image/x-icon", href: `/img/favicon.ico` }
     ],
-    ["meta", { name: "baidu-site-verification", content: "C7pbYsRSpU" }]
+    ["meta", { name: "baidu-site-verification", content: "C7pbYsRSpU" }],
+    ["meta", { name: "X-UA-Compatible", content: "IE=edge,chrome=1" }],
+    [
+      "meta",
+      {
+        name: "viewport",
+        content:
+          "width=device-width,initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+      }
+    ],
+    ["meta", { name: "author", content: "ziwen,okziwen@foxmail.com" }],
+    ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    ["meta", { name: "apple-mobile-web-app-title", content: "ziwen" }]
   ],
   themeConfig: {
     smoothScroll: true,

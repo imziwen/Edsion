@@ -152,3 +152,27 @@ function defineReactive(data, key, val) {
 ::: t
 `Watcher` 订阅者在初始化的时候需要将自己添加进订阅器 `Dep` 中，只要在此时获取对应的属性值，触发对应的 `get` 函数添加订阅者 `Watcher` 操作即可。
 :::
+
+```js
+function Watcher(vm, exp, cb) {
+  this.vm = vm; // Vue的实例对象
+  this.exp = exp; // node 节点的 v-model 等指令的属性值 或者插值符号中的属性。如 v-model="name"，exp 就是name;
+  this.cb = cb; // Watcher 绑定的更新函数;
+  this.value = this.get(); // 把自己添加到Dep订阅器
+}
+
+Watcher.prototype = {
+  get: function() {
+    Dep.target = this; // 将自己赋值为全局的订阅者
+    var value = this.vm.data[this.exp]; // 执行Observer监听器里的get函数
+    Dep.target = null; // 释放订阅者
+    return value;
+  }
+};
+```
+
+- **当我们实例化一个 watcher 的时候，首先会执行 `this.get()`方法**
+- **然后执行`Dep.target = this`将自己赋值为当前的`watcher`**,
+- **然后执行`var value = this.vm.data[this.exp]`,就是为了触发数据对象的 `getter`。每个对象值的 `getter` 都持有一个 `dep`，在触发 `getter` 的时候会调用 `dep.depend()` 方法，也就会执行 `this.addSub(Dep.target)`，即把当前的 `watcher` 订阅到这个数据持有的 `dep` 的 `watchers` 中，这个目的是为后续数据变化时候能通知到哪些 `watchers` 做准备。**
+- **已经完成了一个依赖收集的过程。完成依赖收集后，还需要把 `Dep.target` 恢复成上一个状态，即：`Dep.target = null;`**
+- **而 `update()` 函数是用来当数据发生变化时调用 Watcher 自身的更新函数进行更新的操作。先通过 `var value = this.vm.data[this.exp]`; 获取到最新的数据,然后将其与之前 `get()` 获得的旧数据进行比较，如果不一样，则调用更新函数 `cb` 进行更新。**

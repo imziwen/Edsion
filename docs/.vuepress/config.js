@@ -5,6 +5,20 @@ module.exports = {
   host: "0.0.0.0",
   head: [
     [
+      "script",
+      {},
+      `<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1cda0c3a27ed754d6344dcce0e142e04";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    `
+    ],
+    [
       "link",
       { rel: "shortcut icon", type: "image/x-icon", href: `/img/favicon.ico` }
     ],
@@ -27,22 +41,8 @@ module.exports = {
     logo: "/img/Javascript.gif",
     nav: [
       { text: "小题巩固", link: "/question/" },
-      { text: "打下基础", link: "/notes/" }
-
-      // {
-      //   text: "附录",
-      //   link: "/error",
-      //   items: [
-      //     {
-      //       text: "Group1",
-      //       items: [123]
-      //     },
-      //     {
-      //       text: "Group2",
-      //       items: [456]
-      //     }
-      //   ]
-      // }
+      { text: "打下基础", link: "/notes/" },
+      { text: "小思考", link: "/think/" }
     ],
     sidebar: "auto",
     sidebar: {
@@ -87,7 +87,13 @@ module.exports = {
         },
         {
           title: "Framework",
-          children: ["/question/2/mvvm.md", "/question/2/vuetx.md"]
+          children: [
+            "/question/2/mvvm.md",
+            "/question/2/vuetx.md",
+            "/question/2/vdom.md",
+            "/question/2/为何v-for要使用key",
+            "/question/2/v-model实现原理"
+          ]
         },
         {
           title: "Performance",
@@ -95,11 +101,24 @@ module.exports = {
         },
         {
           title: "Project",
-          children: ["/question/6/project.md", "/question/6/codereview-list.md"]
+          children: [
+            "/question/6/前端代码为何要进行构建打包",
+            "/question/6/modulechunkbundle",
+            "/question/6/loader和plugin的区别",
+            "/question/6/webpack懒加载",
+            "/question/6/bable-runtime和bable-polyfill",
+            "/question/6/project.md",
+            "/question/6/codereview-list.md"
+          ]
         },
         {
           title: "HTML",
-          children: ["/question/3/html.md", "/question/3/meta.md"]
+          children: [
+            "/question/3/html.md",
+            "/question/3/meta.md",
+            "/question/3/domadd.md",
+            "/question/3/windoc.md"
+          ]
         },
         {
           title: "CSS",

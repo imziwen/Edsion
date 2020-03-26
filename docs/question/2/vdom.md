@@ -8,10 +8,48 @@
 
 如何对比变化？**`diff` 算法就是核心**。(`diff`即对比，是一个广泛的概念，如`linux diff`命令、`git diff`等)
 
+两个 JS 对象也可以做 diff， **[这里](https://github.com/cujojs/jiff)**
+
 - **只比较同一层级，不跨级比较**
 - **tag 不相同，则直接删掉重建，不再深度比较**
 - **tag 和 key，两者都相同，则认为是相同节点，不再深度比较**
 
+```html
+<div>
+  Hello World
+  <ul>
+    <li id="yes" class="li-1">
+      ziwen
+    </li>
+  </ul>
+</div>
+```
+
+```js
+{
+    tag: "div",
+    props: {},
+    children: [
+        "Hello World",
+        {
+            tag: "ul",
+            props: {},
+            children: [{
+                tag: "li",
+                props: {
+                    id: "yes",
+                    class: "li-1"
+                },
+                children: ["ziwen"]
+            }]
+        }
+    ]
+}
+```
+
+自己简单画了张图，加深理解：
+
+![](/img/question/vue/diff.png)
 :::
 
-## snabbdom
+### [snabbdom 有空可以研究下](https://github.com/snabbdom/snabbdom)

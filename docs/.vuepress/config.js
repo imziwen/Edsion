@@ -76,7 +76,7 @@ module.exports = {
       ],
       "/question/": [
         {
-          title: "JavaScript",
+          title: "JavaScript篇",
           children: [
             "/question/1/js.md",
             "/question/1/write.md",
@@ -85,33 +85,32 @@ module.exports = {
           ]
         },
         {
-          title: "Framework",
+          title: "框架篇",
           children: [
             "/question/2/mvvm.md",
             "/question/2/vuetx.md",
             "/question/2/vdom.md",
+            "/question/2/模板编译.md",
+            "/question/2/前端路由原理.md",
             "/question/2/为何v-for要使用key",
             "/question/2/v-model实现原理"
           ]
         },
         {
-          title: "Performance",
+          title: "性能篇",
           children: ["/question/5/performance.md"]
         },
         {
-          title: "Project",
+          title: "项目工程篇",
           children: [
             "/question/6/前端代码为何要进行构建打包",
-            "/question/6/modulechunkbundle",
-            "/question/6/loader和plugin的区别",
-            "/question/6/webpack懒加载",
-            "/question/6/bable-runtime和bable-polyfill",
             "/question/6/project.md",
+            "/question/6/webpackyh.md",
             "/question/6/codereview-list.md"
           ]
         },
         {
-          title: "HTML",
+          title: "HTML篇",
           children: [
             "/question/3/html.md",
             "/question/3/meta.md",
@@ -120,12 +119,12 @@ module.exports = {
           ]
         },
         {
-          title: "CSS",
+          title: "CSS篇",
           children: ["/question/0/css.md", "/question/0/margin.md"]
         },
 
         {
-          title: "Network",
+          title: "网络篇",
           children: [
             "/question/4/network.md",
             "/question/4/tcp.md",

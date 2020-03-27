@@ -27,6 +27,7 @@
 ::: t
 
 ```html
+<!--启用 DNS 预解析。在浏览器支持 DNS 预解析的特性时即使不使用该标签浏览器依然会进行预解析。-->
 <meta http-equive="x-dns-prefetch-control" content="on" />
 <link rel="dns-prefetch" href="xxxxxx.com" />
 ```

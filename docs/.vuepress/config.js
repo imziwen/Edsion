@@ -18,23 +18,6 @@ module.exports = {
     `
     ],
     [
-      "script",
-      {
-        src: "https://www.googletagmanager.com/gtag/js?id=UA-162020646-1"
-      }
-    ],
-    [
-      "script",
-      {},
-      `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'UA-162020646-1');
-    `
-    ],
-    [
       "link",
       { rel: "shortcut icon", type: "image/x-icon", href: `/img/favicon.ico` }
     ],
@@ -122,6 +105,7 @@ module.exports = {
           title: "项目工程篇",
           children: [
             "/question/6/前端代码为何要进行构建打包",
+            "/question/6/trycach",
             "/question/6/project.md",
             "/question/6/webpackyh.md",
             "/question/6/codereview-list.md"

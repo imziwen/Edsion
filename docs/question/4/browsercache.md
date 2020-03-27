@@ -70,11 +70,11 @@ Cache-Control:max-age = 2000
 
 ### 协商缓存
 
-解决无法及时更新资源问题，利用（`Last-Modified`、`If-Modified-Since`）和（`Etag`、`If-None-Match`）这两对 `header` 来对资源做标识，然后由服务器做分析，如果资源未更新，则返回 `304` 状态码，浏览器慧会从缓存中读取资源，否则重新请求资源。
+解决无法及时更新资源问题，利用（`Last-Modified`、`If-Modified-Since`）和（`Etag`、`If-None-Match`）这两对 `header` 来对资源做标识，然后由服务器做分析，如果资源未更新，则返回 `304` 状态码，浏览器会从缓存中读取资源，否则重新请求资源。
 
 **Last-Modified(最后一次修改时间) 与 If-Modified-Since(某某时刻修改的，取前者的值)**
 
-- 1. 浏览器第一次向服务器请求资源，服务器在返回这个资源的同时，在 response 的 header 中加上 Last-Modified 的 header，表示这个资源文件在服务器上的最后修改时间`Last-Modified:Wed Feb 26 2018 08:34:17 GMT`
+- 1. 浏览器第一次向服务器请求资源，服务器在返回这个资源的同时，在 `response` 的 `header` 中加上 `Last-Modified` 的 `header`，表示这个资源文件在服务器上的最后修改时间`Last-Modified:Wed Feb 26 2018 08:34:17 GMT`
 
 - 2. 浏览器之后再向服务器请求这个资源时，会在`request`的`header`中加上`If-Modified-Since`的`header`,值为上次请求这个资源时返回的`Last-Modified`的值：`Wed Feb 26 2018 08:34:17 GMT`
 - 3. 服务器再次收到这个资源请求时，**会根据浏览器传过来的 `request` `header` 中 `If-Modified-Since` 的修改时间判断资源是否有变化。** 如果无变化，则 **返回 `304 Not Modified`,不返回资源内容** ；如有变化，正常返回 200 码资源内容。

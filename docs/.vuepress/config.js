@@ -18,9 +18,27 @@ module.exports = {
     `
     ],
     [
+      "script",
+      {
+        src: "https://www.googletagmanager.com/gtag/js?id=UA-162020646-1"
+      }
+    ],
+    [
+      "script",
+      {},
+      `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-162020646-1');
+    `
+    ],
+    [
       "link",
       { rel: "shortcut icon", type: "image/x-icon", href: `/img/favicon.ico` }
     ],
+    ["link", { rel: "dns-prefetch", href: `//f1g1ns1.dnspod.net` }],
     ["meta", { name: "baidu-site-verification", content: "C7pbYsRSpU" }],
     ["meta", { name: "X-UA-Compatible", content: "IE=edge,chrome=1" }],
     [
@@ -98,7 +116,7 @@ module.exports = {
         },
         {
           title: "性能篇",
-          children: ["/question/5/performance.md"]
+          children: ["/question/5/performance.md", "/question/5/ymxnyh.md"]
         },
         {
           title: "项目工程篇",

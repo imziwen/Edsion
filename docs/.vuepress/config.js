@@ -87,9 +87,7 @@ module.exports = {
             "/question/2/vuetx.md",
             "/question/2/vdom.md",
             "/question/2/模板编译.md",
-            "/question/2/前端路由原理.md",
-            "/question/2/为何v-for要使用key",
-            "/question/2/v-model实现原理"
+            "/question/2/前端路由原理.md"
           ]
         },
         {
@@ -117,7 +115,7 @@ module.exports = {
         },
         {
           title: "CSS篇",
-          children: ["/question/0/css.md", "/question/0/margin.md"]
+          children: ["/question/0/css.md", "/question/0/margin.md","/question/0/click.md"]
         },
 
         {

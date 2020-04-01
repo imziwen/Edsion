@@ -1,16 +1,190 @@
 # JS 基础小记
 
-[挑战一轮大厂后的面试总结 (含六个方向) - javascript 篇(万字长文)](https://juejin.im/post/5e523e726fb9a07c9a195a95)
+## 执行上下文与执行栈
 
-[「硬核 JS」一次搞懂 JS 运行机制](https://juejin.im/post/5e22b391f265da3e204d8c14#heading-21)
+::: t
+它们是？:frowning:<br>
+搞不定它俩的话，就像你炒菜没有锅:pill:<br>
+废话少说，开锅:yum:
+:::
 
-[看完这几道 JavaScript 面试题，让你与考官对答如流（上）](https://juejin.im/post/5e166cc5f265da5d57543102)
+## 啥是执行上下文（也叫执行环境）
 
-[看完这几道 JavaScript 面试题，让你与考官对答如流（中）](https://juejin.im/post/5e1bb37a5188254dbc25de92#heading-18)
+执行上下文就是当前`JavaScript`代码被解析和执行时所在环境(锅里炒 JS？)的抽象概念。
 
-[看完这几道 JavaScript 面试题，让你与考官对答如流（下）](https://juejin.im/post/5e1faa3d51882520a167df0e)s
+### 执行上下文有三种类型：
 
-## 0. 原型链类
+:one: **全局执行上下文**：是默认的，最外围的执行上下文。在 Web 浏览器中全局执行环境是`window`对象，所有全局变量和函数都是`window`对象属性的和方法创建的。
+
+:two: **函数执行上下文**：每个函数都有自己的执行上下文，_每次调用函数时_，都会为此函数创建一个执行上下文。可以有任意数量个。
+
+:three: **Eval 函数执行上下文**：运行在`eval`函数中的执行上下文，这家伙总会惹事，尽量少使用为妙。
+
+## 啥是执行栈
+
+它在其它编程语言中叫做调用栈，具有 LIFO（后进先出）结构，用于存贮在代码执行期间创建的所有执行上下文。
+
+当 JS 引擎首次拿到代码的时候，会创建一个全局执行上下文并将其推到当前的执行栈。每当一个函数调用，引擎都会为该函数创建一个新的执行上下文并将其推到当前执行栈的顶端。
+
+引擎会运行执行上下文在执行栈顶端的函数，当次函数运行完成后，其对应的执行上下文将会从执行栈中弹出，上下文控制权将移交到当前执行栈的下一个执行上下文。
+
+```javascript
+let a = "你好啊";
+
+function first() {
+  console.log("Inside first function");
+  second();
+  console.log("Again inside first function");
+}
+function second() {
+  console.log("Inside second function");
+}
+
+first();
+console.log("Inside Global Execution Context");
+// Inside first function
+// Inside second function
+// Again inside first function
+// Inside Global Execution Context
+```
+
+![执行上下文](/img/notes/1/zxsxw.jpg)
+
+## 执行上下文是如何被创建的？
+
+它分两个阶段：:one:创建阶段 :two:执行阶段
+
+### 创建阶段
+
+- :one: 确定 this 的值，称为 This Binding。
+- :two: LexicalEnvironment（词法环境） 组件被创建。
+- :three: VariableEnvironment（变量环境） 组件被创建。
+
+#### This Binding
+
+- 全局执行上下文中，this 的值指向全局对象 window（浏览器中）
+- 函数执行上下文中，this 的值取决于函数的调用方式。如果被一个对象调用，那么 this 的值就被设置为此对象，否则 this 的值被设置为全局对象或 undefined(严格模式下)
+
+```javascript
+let person = {
+  name: "ziwen",
+  birthYear: 1999,
+  calcAge: function() {
+    console.log(2019 - this.birthYear);
+  }
+};
+
+person.calcAge(); // 20
+// 'this' 指向 'person', 因为 'calcAge' 是被 'person' 对象引用调用的。
+
+let calculateAge = person.calcAge;
+calculateAge(); // NaN
+// 'this' 指向全局 window 对象,因为没有给出任何对象引用
+```
+
+#### 词法环境（Lexical Environment）
+
+> 词法环境是一种规范类型，基于`ECMAScript`代码的词法嵌套结构来定义标识符与特定变量和函数的关联关系。词法环境由环境记录（`environment record`）和可能为空引用（`null`）的外部词法环境组成。
+
+**词法环境一个包含标识符与变量映射的结构**。（标识符表示变量/函数的名称，变量是实际对象或原始值的引用）。
+
+在词法环境中有两个组成部分：:one: 环境记录 :two: 对外部环境的引用
+
+- 环境记录是存储变量和函数声明的实际位置。
+- 对外部环境的引用意味着它可以访问其外部词法环境。
+
+词法环境由两种类型：
+
+:one: **全局环境**(在全局执行上下文中)是一个没有外部环境的词法环境。全局环境的外部引用为`null`。它拥有一个全局对象（`window`对象）及其关联的方法和属性以及任何用户自定义的变量，this 指向这个全局对象。
+
+:two: **函数环境** 用户在函数中定义的变量被存储在环境记录中，环境记录中包含着`arguments`对象。对外部环境的引用可以是全局环境，也可以是包换内部函数的外部环境。
+
+#### 变量环境
+
+变量环境也是一个词法环境，因此它具有上边定义的词法环境的所有属性。
+
+在 ES6 中，词法环境和变量环境的区别在于前者用于存储函数声明和变量（`let`和`const`）绑定，而后者仅用于存储变量（`var`）绑定
+
+来吧，上代码瞧瞧：
+
+```js
+let a = 20;
+const b = 30;
+var c;
+
+function multiply(e, f) {
+  var g = 20;
+  return e * f * g;
+}
+
+c = multiply(20, 30);
+```
+
+执行上下文如下所示：
+
+```js
+GlobalExectionContext = {
+
+  ThisBinding: <Global Object>,
+
+  LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: "Object",
+      // 标识符绑定在这里
+      a: < uninitialized >,
+      b: < uninitialized >,
+      multiply: < func >
+    }
+    outer: <null>
+  },
+
+  VariableEnvironment: {
+    EnvironmentRecord: {
+      Type: "Object",
+      // 标识符绑定在这里
+      c: undefined,
+    }
+    outer: <null>
+  }
+}
+
+FunctionExectionContext = {
+
+  ThisBinding: <Global Object>,
+
+  LexicalEnvironment: {
+    EnvironmentRecord: {
+      Type: "Declarative",
+      // 标识符绑定在这里
+      Arguments: {0: 20, 1: 30, length: 2},
+    },
+    outer: <GlobalLexicalEnvironment>
+  },
+
+  VariableEnvironment: {
+    EnvironmentRecord: {
+      Type: "Declarative",
+      // 标识符绑定在这里
+      g: undefined
+    },
+    outer: <GlobalLexicalEnvironment>
+  }
+}
+
+```
+
+**变量提升的原因**：在创建时，函数声明存储在环境中，而变量会被设置为 `undefined`(`var` 声明的情况下)或者保持未初始化(在 `let` 和 `const` 定义的情况下)。所以 `var` 定义的变量在声明之前可以访问(尽管是 `unddefined`),如果在声明之前访问 `let` 和 `const` 定义的变量就会提示引用错误的原因。这就是所谓的变量提升。
+
+#### 执行阶段
+
+此阶段完成对所有变量的分配，最后执行代码。
+
+<br>
+
+[参考文章](https://blog.bitsrc.io/understanding-execution-context-and-execution-stack-in-javascript-1c9ea8642dd0)
+[官方 ES6](http://ecma-international.org/ecma-262/6.0/)
+
+## 原型链类
 
 ::: cd
 
@@ -132,7 +306,7 @@ null === undefined; // false
 
 ::: cd
 
-### 组合继承
+- 组合继承
 
 ```js
 // 父类
@@ -161,7 +335,7 @@ child instanceof Parent; // true
 
 **缺点：继承父类函数的时候调用了父类构造函数，导致子类的原型上多了不需要的父类属性，存在内存上的浪费。**
 
-### 寄生组合继承
+- 寄生组合继承
 
 ```js
 // 寄生组合继承
@@ -189,7 +363,7 @@ child instanceof Parent; // true
 
 **优点：优化掉了继承父类函数时调用构造函数问题；解决了无用父类属性问题，正确找到子类的构造函数。**
 
-### Class 继承
+- Class 继承
 
 ```js
 class Parent {
@@ -298,7 +472,7 @@ result(); // 66
 `通过指定连接符，生成字符串`
 :::
 
-## 1. 数组去重的简单几种方法
+## 数组去重的简单几种方法
 
 ::: cd
 简单整理以下几种：
@@ -353,7 +527,7 @@ console.log(result); // -> [1, 2, 3, 4, 5]
 
 :::
 
-## 2. 简洁版 Promise
+## 简洁版 Promise
 
 :::cd
 
@@ -437,7 +611,7 @@ class Promise {
 [参考 1](https://promisesaplus.com/)
 :::
 
-## 3. forEach、map 和 filter 的区别
+## forEach、map 和 filter 的区别
 
 :::cd
 `forEach`遍历数组，参数是一个回调函数，回调函数接收三个参数：当前元素、元素索引、整个数组。
@@ -447,7 +621,7 @@ class Promise {
 `filter`会返回原数组的一个子集，回调函数用于逻辑判断，返回`true`则将当前元素添加到返回数组中，否则排除当前元素，原数组不变。
 :::
 
-## 4. delete 数组的一项，数组的 length 是否会减 1
+## delete 数组的一项，数组的 length 是否会减 1
 
 ::: cd
 
@@ -462,7 +636,7 @@ console.log(a); // ['b','c']
 
 :::
 
-## 5. call 和 apply 的异同点是什么？哪个性能更好一些？
+## call 和 apply 的异同点是什么？哪个性能更好一些？
 
 ::: cd
 
@@ -472,7 +646,7 @@ console.log(a); // ['b','c']
 
 :::
 
-## 6. 数组 filter
+## 数组 filter
 
 ::: cd
 对数组进行过滤。创建一个新数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。（不会检测空数组，不会改变原数组）
@@ -491,7 +665,7 @@ console.log(result); // [1,2,3,4]
 
 :::
 
-## 7. 数组 flat
+## 数组 flat
 
 :::cd
 此为 ES6 新增特性，可以将多维数组平为低纬数组。如果不传参数默认拍平一层，传入参数可以规定需要拍平的层级。
@@ -511,7 +685,7 @@ arr3.flat(2); // [1, 2, 3, 4, 5, 6]
 
 :::
 
-## 8. 防抖、节流？
+## 防抖、节流？
 
 :::cd
 **防抖**：触发高频事件后 n 秒内函数只执行一次，如果 n 秒内高频事件再次触发，则重新计算时间。
@@ -560,7 +734,7 @@ window.addEventListener("resize", throttle(hello)); // 309 331   节流成功
 
 :::
 
-## 9. Set、Map？
+## Set、Map？
 
 ::: cd
 `Set` 和 `Map` 主要的应用场景在于 数据重组 和 数据储存。
@@ -694,7 +868,7 @@ m3.get("c"); // 2
 
 :::
 
-## 11. 判断数据类型的方法
+## 判断数据类型的方法
 
 ::: cd
 
@@ -745,7 +919,7 @@ toString.call(null); // [object Null]
 
 :::
 
-## 12. var、let、const 的区别
+## var、let、const 的区别
 
 ::: cd
 `let` 与 `const` 为 `ES6` 新增
@@ -764,7 +938,7 @@ toString.call(null); // [object Null]
 - const 一旦声明必须赋值，不能使用 null 占位。声明后不能再修改，如果声明的是复合类型的数据，可以修改其属性。
   :::
 
-## 13. 定义函数的方法
+## 定义函数的方法
 
 ::: cd
 函数声明：
@@ -822,40 +996,80 @@ slice 的原理就是根据传入的原数组或者类数组进行遍历获取�
 
 ## 简易深拷贝
 
-::: t
+::: cd
 
 ```js
 //定义检测数据类型的功能函数
-function chekType(target){
-  return Object.prototype.toString.call(target).slice(8,-1)
+function chekType(target) {
+  return Object.prototype.toString.call(target).slice(8, -1);
 }
 //实现深度克隆---对象/数组
-function clone(target){
+function clone(target) {
   //初始化变量result 成为最终克隆的数据
   let result;
   //判断拷贝的数据类型
   let targetType = chekType(target);
-  if(targetType === 'Object'){
-    result = {}
-  }else if(targetType === 'Array'){
-    result = []
-  }else{
-    return target
-  };
+  if (targetType === "Object") {
+    result = {};
+  } else if (targetType === "Array") {
+    result = [];
+  } else {
+    return target;
+  }
   //遍历目标数据
-  for(let i in target){
+  for (let i in target) {
     //获取遍历数据结构的每一项值。
     let value = target[i];
-    if(chekType(value) === 'Object' || chekType(value) === 'Array'){
+    if (chekType(value) === "Object" || chekType(value) === "Array") {
       //如果是对象或者数组，递归遍历
       result[i] = clone(value);
-    }else{
+    } else {
       result[i] = value;
     }
   }
   return result;
 }
-
 ```
+
+:::
+
+## 手写 =new 操作符
+
+::: cd
+
+new 的过程中做了哪些事：
+
+- 因为`new`的结果是一个新对象，创建了一个全新的对象;
+- 被创建的对象\_\_proto\_\_链接到构造函数的`prototype`对象上;
+- 被创建的对象绑定到函数调用的`this`;
+- 如果函数没有返回其它对象，那么`new`表达式中的函数调用会自动返回这个创建的新对象。
+
+```js
+function New(f) {
+  var res = Object.create(null);
+  if (f.prototype !== null) {
+    res.__proto__ = f.prototype;
+  }
+  var ret = f.apply(res, Array.prototype.slice.call(arguments, 1));
+  if ((typeof ret === "object" || typeof ret === "function") && ret !== null) {
+    return ret;
+  }
+  return res;
+}
+var obj = New();
+```
+
+:::
+
+## common.js 和 es6 中模块引入的区别？
+
+::: cd
+CommonJS 是一种模块规范，最初被应用于 Nodejs，成为 Nodejs 的模块规范。运行在浏览器端的 JavaScript 由于也缺少类似的规范，在 ES6 出来之前，前端也实现了一套相同的模块规范 (例如: AMD)，用来对前端模块进行管理。自 ES6 起，引入了一套新的 ES6 Module 规范，在语言标准的层面上实现了模块功能，而且实现得相当简单，有望成为浏览器和服务器通用的模块解决方案。但目前浏览器对 ES6 Module 兼容还不太好，我们平时在 Webpack 中使用的 export 和 import，会经过 Babel 转换为 CommonJS 规范。在使用上的差别主要有：
+
+- CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。
+- CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。
+- CommonJs 是单个值导出，ES6 Module 可以导出多个
+- CommonJs 是动态语法可以写在判断里，ES6 Module 静态语法只能写在顶层
+- CommonJs 的 this 是当前模块，ES6 Module 的 this 是 undefined
 
 :::

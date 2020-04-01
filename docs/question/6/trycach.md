@@ -93,3 +93,7 @@
 :::
 
 ## 上报错误的基本原理
+
+```js
+<script>(new Image()).src = 'http://ufojs.com/abc?error=ohno';</script>
+```

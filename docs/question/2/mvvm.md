@@ -1,13 +1,5 @@
 # vue 核心之双向绑定
 
-[2020 年大厂面试指南 - Vue 篇](https://juejin.im/post/5e4d24cce51d4526f76eb2ba)
-
-[「Vue 实践」武装你的前端项目](https://juejin.im/post/5cab64ce5188251b19486041)
-
-[30 道 Vue 面试题，内含详细讲解（涵盖入门到精通，自测 Vue 掌握程度）](https://juejin.im/post/5d59f2a451882549be53b170)
-
-[0 到 1 掌握：Vue 核心之数据双向绑定](https://juejin.im/post/5d421bcf6fb9a06af23853f1)
-
 双向绑定是通过**数据劫持**`Object.defineproperty()`结合**发布者-订阅者模式**的方式来实现的。
 
 注：此处讨论的是 `vue2.x` 版本，`vue3.x` 版本以从 `Object.defineproperty()`升级为 `Proxy()`
@@ -176,3 +168,5 @@ Watcher.prototype = {
 - **然后执行`var value = this.vm.data[this.exp]`,就是为了触发数据对象的 `getter`。每个对象值的 `getter` 都持有一个 `dep`，在触发 `getter` 的时候会调用 `dep.depend()` 方法，也就会执行 `this.addSub(Dep.target)`，即把当前的 `watcher` 订阅到这个数据持有的 `dep` 的 `watchers` 中，这个目的是为后续数据变化时候能通知到哪些 `watchers` 做准备。**
 - **已经完成了一个依赖收集的过程。完成依赖收集后，还需要把 `Dep.target` 恢复成上一个状态，即：`Dep.target = null;`**
 - **而 `update()` 函数是用来当数据发生变化时调用 Watcher 自身的更新函数进行更新的操作。先通过 `var value = this.vm.data[this.exp]`; 获取到最新的数据,然后将其与之前 `get()` 获得的旧数据进行比较，如果不一样，则调用更新函数 `cb` 进行更新。**
+
+## 4.[模板编译](https://ufojs.com/question/2/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91.html)

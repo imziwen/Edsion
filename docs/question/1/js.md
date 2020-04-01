@@ -520,13 +520,13 @@ arr3.flat(2); // [1, 2, 3, 4, 5, 6]
 
 ```js
 <input type="text" id="in">
-function debounce(fn){
+function debounce(fn, delay){
   let timeout = null;
   return function(){
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       fn.apply(this,arguments);
-    },500)
+    },delay)
   };
 }
 function hello(){
@@ -541,7 +541,7 @@ inp.addEventListener('input',debounce(hello));//hello 成功防抖
 思路：每次触发事件时都判断当前是否有等待执行的延时函数。
 
 ```js
-function throttle(fn) {
+function throttle(fn, delay) {
   let canRun = true;
   return function() {
     if (!canRun) return;
@@ -549,7 +549,7 @@ function throttle(fn) {
     setTimeout(() => {
       fn.apply(this, arguments);
       canRun = true;
-    }, 500);
+    }, delay);
   };
 }
 function hello(e) {
@@ -818,4 +818,44 @@ slice 的原理就是根据传入的原数组或者类数组进行遍历获取�
 **可以理解为让类数组调用数组的方法**。
 
 `[].slice.call(arguments)`
+:::
+
+## 简易深拷贝
+
+::: t
+
+```js
+//定义检测数据类型的功能函数
+function chekType(target){
+  return Object.prototype.toString.call(target).slice(8,-1)
+}
+//实现深度克隆---对象/数组
+function clone(target){
+  //初始化变量result 成为最终克隆的数据
+  let result;
+  //判断拷贝的数据类型
+  let targetType = chekType(target);
+  if(targetType === 'Object'){
+    result = {}
+  }else if(targetType === 'Array'){
+    result = []
+  }else{
+    return target
+  };
+  //遍历目标数据
+  for(let i in target){
+    //获取遍历数据结构的每一项值。
+    let value = target[i];
+    if(chekType(value) === 'Object' || chekType(value) === 'Array'){
+      //如果是对象或者数组，递归遍历
+      result[i] = clone(value);
+    }else{
+      result[i] = value;
+    }
+  }
+  return result;
+}
+
+```
+
 :::

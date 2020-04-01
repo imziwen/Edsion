@@ -72,7 +72,17 @@ export default {
       }
     };
   },
-  created: function() {}
+  created: function() {
+    function d(fn, delay) {
+      var time = null;
+      return function() {
+        clearTimeout(time);
+        time = setTimeout(function() {
+          fn.call(this, arguments);
+        }, delay);
+      };
+    }
+  }
 };
 </script>
 

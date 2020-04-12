@@ -22,9 +22,9 @@
 
 ## 啥是执行栈
 
-它在其它编程语言中叫做调用栈，具有 LIFO（后进先出）结构，用于存贮在代码执行期间创建的所有执行上下文。
+它在其它编程语言中叫做调用栈，具有 `LIFO`（后进先出）结构，用于存贮在代码执行期间创建的所有执行上下文。
 
-当 JS 引擎首次拿到代码的时候，会创建一个全局执行上下文并将其推到当前的执行栈。每当一个函数调用，引擎都会为该函数创建一个新的执行上下文并将其推到当前执行栈的顶端。
+当 `JS` 引擎首次拿到代码的时候，会创建一个全局执行上下文并将其推到当前的执行栈。每当一个函数调用，引擎都会为该函数创建一个新的执行上下文并将其推到当前执行栈的顶端。
 
 引擎会运行执行上下文在执行栈顶端的函数，当次函数运行完成后，其对应的执行上下文将会从执行栈中弹出，上下文控制权将移交到当前执行栈的下一个执行上下文。
 
@@ -183,6 +183,46 @@ FunctionExectionContext = {
 
 [参考文章](https://blog.bitsrc.io/understanding-execution-context-and-execution-stack-in-javascript-1c9ea8642dd0)
 [官方 ES6](http://ecma-international.org/ecma-262/6.0/)
+
+## 箭头函数this?
+> 1. 没有自己的`this`、`super`、`arguments`和`new.target`绑定
+> 2. 不能使用`new`来调用
+> 3. 没有原型对象
+> 4. 不可以改变`this`的绑定
+> 5. 形参名称不能重复
+>
+
+::: t
+箭头函数其实并没有自己的`this`,它需要通过查找作用域链来决定其值。
+
+该箭头函数绑定上层非箭头函数的`this`,否则this将被设置为全局对象`window`。
+
+```javascript
+var name = '全局对象window';
+var student = {
+    name: 'ziwen',
+    doSth: function(){
+        // var self = this;
+        var DoSth = () => {
+            // console.log(self.name);
+            console.log(this.name);
+        }
+        DoSth();
+    },
+    DoSth2: () => {
+        console.log(this.name);
+    }
+}
+
+// 箭头函数DoSth的上层非箭头函数普通函数为doSth
+student.doSth(); // 'ziwen'
+// 箭头函数DoSth2上层没有非箭头函数的普通函数，则绑定全局对象window
+student.DoSth2(); // '全局对象window'
+
+```
+:::
+
+
 
 ## 原型链类
 
@@ -398,7 +438,9 @@ child instanceof Parent; // true
 
 ::: cd
 
-简单理解就是：函数 `A` 中包含函数 `B`，`return` 出函数 `B` 后，函数 `B` 还能访问函数 `A` 中的变量。
+简单理解就是：函数 `A` 中包含函数 `B`，且函数`B`中使用了函数`A`的变量，`return` 出函数 `B` 后，函数 `B` 还能访问函数 `A` 中的变量。
+
+**在 `JavaScript` 中，根据词法作用域的规则，内部函数总是可以访问其外部函数中声明的变量，当通过调用一个外部函数返回一个内部函数后，即使该外部函数已经执行结束了，但是内部函数引用外部函数的变量依然保存在内存中，我们就把这些变量的集合称为闭包。**
 
 ```js
 function A() {

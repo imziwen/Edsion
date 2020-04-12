@@ -73,15 +73,13 @@ export default {
     };
   },
   created: function() {
-    function d(fn, delay) {
-      var time = null;
-      return function() {
-        clearTimeout(time);
-        time = setTimeout(function() {
-          fn.call(this, arguments);
-        }, delay);
-      };
-    }
+   var a = 1;
+   function t() {
+      return function tt() {
+        console.log(a)
+      }
+   }
+  t()()
   }
 };
 </script>

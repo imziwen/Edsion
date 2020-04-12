@@ -109,13 +109,18 @@ module.exports = {
           children: [
             "/question/3/html.md",
             "/question/3/meta.md",
+            "/question/3/cpch.md",
             "/question/3/domadd.md",
             "/question/3/windoc.md"
           ]
         },
         {
           title: "CSS篇",
-          children: ["/question/0/css.md", "/question/0/margin.md","/question/0/click.md"]
+          children: [
+            "/question/0/css.md",
+            "/question/0/margin.md",
+            "/question/0/click.md"
+          ]
         },
 
         {
@@ -194,9 +199,20 @@ module.exports = {
       }
     ],
     // ["@vuepress/back-to-top"],
-    // ["@vuepress/nprogress"],
+    ["@vuepress/nprogress"],
     // ["@vuepress/active-header-links"],
-    // ["@vuepress/medium-zoom"]
+    // ["@vuepress/medium-zoom"],
+    [
+      "@vuepress/medium-zoom",
+      {
+        selector: "img.zoom-custom-imgs",
+        // medium-zoom options here
+        // See: https://github.com/francoischalifour/medium-zoom#options
+        options: {
+          margin: 16
+        }
+      }
+    ],
     "@vuepress/back-to-top"
   ]
 };

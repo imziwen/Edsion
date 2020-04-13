@@ -1047,10 +1047,11 @@ slice 的原理就是根据传入的原数组或者类数组进行遍历获取�
 `[].slice.call(arguments)`
 :::
 
-## 简易深拷贝
+## 深拷贝
 
 ::: cd
 
+> **乞丐版**
 ```js
 //定义检测数据类型的功能函数
 function chekType(target) {
@@ -1083,7 +1084,34 @@ function clone(target) {
   return result;
 }
 ```
+> **优雅版**
+```javascript
+    const isComplexDataType = obj => (typeof obj === 'object' || 
+        typeof obj === 'function') && (obj !== null)
 
+    const deepClone = function (obj, hash = new WeakMap()) {
+      if(hash.has(obj)) return hash.get(obj)
+      let type = [Date,RegExp,Set,Map,WeakMap,WeakSet]
+      if(type.includes(obj.constructor)) return new obj.constructor(obj)
+      // 如果成环了，参数obj = obj.loop = 最初的obj 
+      // 会在WeakMap中找到第一次放入的obj提前返回第一次
+      // 放入WeakMap的cloneObj
+
+      // 遍历传入参数所有键的特性  
+      let allDesc = Object.getOwnPropertyDescriptors(obj) 
+      // 继承原型
+      let cloneObj = Object.create(Object.getPrototypeOf(obj), allDesc) 
+      hash.set(obj,cloneObj)
+      for (let key of Reflect.ownKeys(obj)) {
+        //  Reflect.ownKeys(obj)可以拷贝不可枚举属性和符号类型
+        // 如果值是引用类型(非函数)则递归调用deepClone
+        cloneObj[key] =
+          (isComplexDataType(obj[key]) && typeof obj[key] !== 'function') ?
+            deepClone(obj[key],hash) : obj[key]
+      }
+      return cloneObj
+    }
+```
 :::
 
 ## 手写 =new 操作符

@@ -375,7 +375,7 @@ child instanceof Parent; // true
 
 **缺点：继承父类函数的时候调用了父类构造函数，导致子类的原型上多了不需要的父类属性，存在内存上的浪费。**
 
-- 寄生组合继承
+- **☆寄生组合继承（目前最优雅）**
 
 ```js
 // 寄生组合继承
@@ -391,9 +391,20 @@ function Child(n) {
   Parent.call(this, n);
 }
 // 子类原型等于一个原型为父类原型的新对象，实现继承
-Child.prototype = Object.create(Parent.prototype);
+Child.prototype = Object.create(Parent.prototype,{
 // 重新指定constructor
-Child.prototype.constructor = Child;
+// 添加到新创建对象的不可枚举（默认）属性
+// （即其自身定义的属性，而不是其原型链上的枚举属性）
+// 对象的属性描述符以及相应的属性名称。这些属性对应Object.defineProperties()的第二个参数。
+    constructor: {
+        value: Child
+// 详见MDN  Object.create()
+    }
+});
+// 另一种写法
+// Child.prototype = Object.create(Parent.prototype)
+// 重新指定constructor
+// Child.prototype.constructor = Child;
 
 var child = new Child("ziwen");
 

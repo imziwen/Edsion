@@ -1114,7 +1114,7 @@ function clone(target) {
 ```
 :::
 
-## 手写 =new 操作符
+## 手写 new 操作符
 
 ::: cd
 

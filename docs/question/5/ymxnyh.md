@@ -35,3 +35,22 @@
 ```
 
 :::
+
+## 页面加载时间监控
+
+::: t
+
+```javascript
+window.performance.timing
+```
+
+```javascript
+DNS解析时间： domainLookupEnd - domainLookupStart
+TCP建立连接时间： connectEnd - connectStart
+白屏时间： responseStart - navigationStart
+dom渲染完成时间： domContentLoadedEventEnd - navigationStart
+页面onload时间： loadEventEnd - navigationStart
+
+```
+
+:::

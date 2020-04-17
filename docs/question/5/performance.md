@@ -20,7 +20,8 @@
 
 ## lighthouse
 
-> 这位大佬直接集成在我们的 chrome 开发工具中的，位于`Audits`下。
+> 这位大佬直接集成在我们的 `chrome` 开发工具中的，位于`Audits`下。<br>
+>我们需要在 `Chrome` 的隐身模式下工作，这样可以确保我们安装的扩展、浏览器缓存、`Cookie` 等数据不会影响到检测结果
 
 ![google-speed](/img/pfmc/lighthouse.png)
 

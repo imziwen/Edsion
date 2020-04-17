@@ -38,6 +38,8 @@
 
 ## 页面加载时间监控
 
+![加载时间](/img/pfmc/xntiming.png)
+
 ::: t
 
 ```javascript

@@ -168,7 +168,7 @@ module.exports = {
       "vuepress-plugin-container",
       {
         type: "cd",
-        defaultTitle: "点击查看答案",
+        defaultTitle: "点击查看",
         before: info =>
           `<details class="custom-block details open tip"><summary>${info}</summary>`,
         after: `</details>`

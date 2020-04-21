@@ -18,6 +18,32 @@ module.exports = {
     `
     ],
     [
+      "script",
+      {},
+      `
+      //拿到Performance并且初始化一些参数
+let timing = performance.timing,
+    start = timing.navigationStart,
+    dnsTime = 0,
+    tcpTime = 0,
+    firstPaintTime = 0,
+    domRenderTime = 0,
+    loadTime = 0;
+    //根据提供的api和属性，拿到对应的时间
+    dnsTime = timing.domainLookupEnd - timing.domainLookupStart;
+    tcpTime = timing.connectEnd - timing.connectStart;
+    firstPaintTime = timing.responseStart - start;
+    domRenderTime = timing.domContentLoadedEventEnd - start;
+    loadTime = timing.loadEventEnd - start;
+
+console.log('DNS解析时间:', dnsTime,
+    '\\nTCP建立时间:', tcpTime,
+    '\\n首屏时间:', firstPaintTime,
+    '\\ndom渲染完成时间:', domRenderTime,
+    '\\n页面onload时间:', loadTime);
+    `
+    ],
+    [
       "link",
       { rel: "shortcut icon", type: "image/x-icon", href: `/img/favicon.ico` }
     ],
@@ -86,6 +112,7 @@ module.exports = {
             "/question/2/mvvm.md",
             "/question/2/vuetx.md",
             "/question/2/vdom.md",
+            "/question/2/不能用index作为key.md",
             "/question/2/模板编译.md",
             "/question/2/前端路由原理.md"
           ]
@@ -127,10 +154,12 @@ module.exports = {
           title: "网络篇",
           children: [
             "/question/4/network.md",
+            "/question/4/kuayu.md",
             "/question/4/tcp.md",
             "/question/4/udp.md",
             "/question/4/https.md",
             "/question/4/browsercache.md"
+
           ]
         }
       ]
@@ -168,7 +197,7 @@ module.exports = {
       "vuepress-plugin-container",
       {
         type: "cd",
-        defaultTitle: "点击查看答案",
+        defaultTitle: "点击查看",
         before: info =>
           `<details class="custom-block details open tip"><summary>${info}</summary>`,
         after: `</details>`

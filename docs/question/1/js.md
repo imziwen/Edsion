@@ -1,15 +1,8 @@
 # JS 基础小记
 
-## 执行上下文与执行栈
-
-::: t
-它们是？:frowning:<br>
-搞不定它俩的话，就像你炒菜没有锅:pill:<br>
-废话少说，开锅:yum:
-:::
 
 ## 啥是执行上下文（也叫执行环境）
-
+::: t
 执行上下文就是当前`JavaScript`代码被解析和执行时所在环境(锅里炒 JS？)的抽象概念。
 
 ### 执行上下文有三种类型：
@@ -20,8 +13,10 @@
 
 :three: **Eval 函数执行上下文**：运行在`eval`函数中的执行上下文，这家伙总会惹事，尽量少使用为妙。
 
-## 啥是执行栈
+:::
 
+## 啥是执行栈
+::: t
 它在其它编程语言中叫做调用栈，具有 `LIFO`（后进先出）结构，用于存贮在代码执行期间创建的所有执行上下文。
 
 当 `JS` 引擎首次拿到代码的时候，会创建一个全局执行上下文并将其推到当前的执行栈。每当一个函数调用，引擎都会为该函数创建一个新的执行上下文并将其推到当前执行栈的顶端。
@@ -49,9 +44,11 @@ console.log("Inside Global Execution Context");
 ```
 
 ![执行上下文](/img/notes/1/zxsxw.jpg)
+::: 
 
 ## 执行上下文是如何被创建的？
 
+::: t
 它分两个阶段：:one:创建阶段 :two:执行阶段
 
 ### 创建阶段
@@ -122,7 +119,7 @@ c = multiply(20, 30);
 
 执行上下文如下所示：
 
-```js
+```javascript
 GlobalExectionContext = {
 
   ThisBinding: <Global Object>,
@@ -183,8 +180,9 @@ FunctionExectionContext = {
 
 [参考文章](https://blog.bitsrc.io/understanding-execution-context-and-execution-stack-in-javascript-1c9ea8642dd0)
 [官方 ES6](http://ecma-international.org/ecma-262/6.0/)
-
+::: 
 ## 箭头函数this?
+::: t
 > 1. 没有自己的`this`、`super`、`arguments`和`new.target`绑定
 > 2. 不能使用`new`来调用
 > 3. 没有原型对象
@@ -192,7 +190,6 @@ FunctionExectionContext = {
 > 5. 形参名称不能重复
 >
 
-::: t
 箭头函数其实并没有自己的`this`,它需要通过查找作用域链来决定其值。
 
 该箭头函数绑定上层非箭头函数的`this`,否则this将被设置为全局对象`window`。
@@ -225,9 +222,7 @@ student.DoSth2(); // '全局对象window'
 
 
 ## 原型链类
-
-::: cd
-
+::: t
 - 创建对象的几种方法
   ```js
   // 第一种方式：字面量创建
@@ -250,12 +245,10 @@ student.DoSth2(); // '全局对象window'
 通过`[[__proto__]]`这个属性组成的链，就叫做原型链。原型链的顶端是 null，往下是 Object 对象，只要是对象或函数类型都会有`[[__proto__]]`这个属性，大家都是 js-family 的一员。
 
 **[理解 constructor、prototype、**proto**和原型链](https://juejin.im/post/5cc99fdfe51d453b440236c3)**
-:::
+::: 
 
 ## typeof 与 instanceof 有什么区别
-
-::: cd
-
+::: t
 `JavaScript` 中的数据类型分为两类：基本数据类型、对象类型。
 
 基本数据类型：`Number String Boolean Null Undefined Symbol BigInt`
@@ -288,13 +281,9 @@ let b = new A(1);
 console.log(b instanceof A); // true
 console.log(b instanceof Object); // true
 ```
-
-:::
-
+::: 
 ## NaN 与 undefined 与 null
-
-::: cd
-
+::: t
 - **NaN 是一个全局对象的属性。代表非数字的特殊值，用于表示某个值不是数字。**
 
 NaN 是 Number 对象中的静态属性
@@ -339,12 +328,9 @@ null === undefined; // false
 ```
 
 **一句话总结：`undefined`表示值不存在，`null`表示值存在但是为空，没有意义。**
-
-:::
-
+::: 
 ## 原型继承与 class 继承
-
-::: cd
+::: t
 
 - 组合继承
 
@@ -443,11 +429,51 @@ child instanceof Parent; // true
 
 **class 实现继承的核心在于使用 extends 表明继承自哪个父类，并且在子类构造函数中必须调用 super，因为这段代码可以看成 Parent.call(this,n,a)。**
 
-:::
+::: 
+## EventLoop
+::: t
+```javascript
+console.log('1');
+async function async1(){
+  console.log('2');
+  await console.log('3');
+  console.log('4');
+}
 
+setTimeout(function(){
+  console.log('5');
+  }, 0);
+async1();
+new Promise(function(resolve){
+  console.log('6');
+  resolve();
+})
+  .then(function(){
+    console.log('7');
+  });
+console.log('8');
+// 12368475
+```
+
+```javascript
+setTimeout(function(){
+  console.log(1);
+})
+Promise.resolve(function(){
+  console.log(2)
+})
+new Promise(function(resolve){
+  console.log(3);
+  resolve();
+})
+  .then(function(){
+    console.log(4)
+  })
+// console.log(5) // 3541
+```
+::: 
 ## 闭包？
-
-::: cd
+::: t
 
 简单理解就是：函数 `A` 中包含函数 `B`，且函数`B`中使用了函数`A`的变量，`return` 出函数 `B` 后，函数 `B` 还能访问函数 `A` 中的变量。
 
@@ -465,12 +491,10 @@ function A() {
 var result = A();
 result(); // 66
 ```
-
-:::
+::: 
 
 ## 数组 Array 的常用 API
-
-:::cd
+::: t
 
 **迭代相关**
 
@@ -523,11 +547,11 @@ result(); // 66
 - **join('连接符')**
 
 `通过指定连接符，生成字符串`
-:::
+::: 
 
 ## 数组去重的简单几种方法
+::: t
 
-::: cd
 简单整理以下几种：
 
 ```js
@@ -577,12 +601,10 @@ const result = originalArray.filter(item =>
 );
 console.log(result); // -> [1, 2, 3, 4, 5]
 ```
-
-:::
+::: 
 
 ## 简洁版 Promise
-
-:::cd
+::: t
 
 众所周知，Promise 需要 new，构造函数无疑。
 
@@ -659,25 +681,22 @@ class Promise {
 
 ```
 
-[参考 0](https://juejin.im/post/5b2f02cd5188252b937548ab)
+[扩展 0](https://juejin.im/post/5b2f02cd5188252b937548ab)
 
-[参考 1](https://promisesaplus.com/)
-:::
+[扩展 1](https://promisesaplus.com/)
+::: 
 
 ## forEach、map 和 filter 的区别
-
-:::cd
+::: t
 `forEach`遍历数组，参数是一个回调函数，回调函数接收三个参数：当前元素、元素索引、整个数组。
 
 `map`遍历数组，但其回调函数的返回值组成一个新数组，数组的索引结构和原数组一致，原数组不变。
 
 `filter`会返回原数组的一个子集，回调函数用于逻辑判断，返回`true`则将当前元素添加到返回数组中，否则排除当前元素，原数组不变。
-:::
+::: 
 
 ## delete 数组的一项，数组的 length 是否会减 1
-
-::: cd
-
+::: t
 ```js
 var a = ["a", "b", "c"];
 delete a[0];
@@ -686,22 +705,17 @@ console.log(a); // ['b','c']
 ```
 
 `length`不变，此时`a[0]`为`undefined`，原数组的索引也保持不变。可以理解为：**萝卜拔掉了 坑还在**。
-
-:::
+::: 
 
 ## call 和 apply 的异同点是什么？哪个性能更好一些？
-
-::: cd
-
+::: t
 - **作用是相同的，传入的第一个参数也都是相同的，都是函数体内`this`的指向；**
 - **区别在于第二个传入参数的不同**。`call`从第二个参数开始都是不固定的，`apply`第二个参数是传入带下标的集合，数组或者类数组，`apply`把这个数组当做一整个参数;
 - `call`的性能要好于`apply`，`call`少了一次给第二个参数解构或者判断的操作。根据业务场景灵活使用，存在即合理。
 
-:::
-
+::: 
 ## 数组 filter
-
-::: cd
+::: t
 对数组进行过滤。创建一个新数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。（不会检测空数组，不会改变原数组）
 
 filter 接收的参数依次为：数组当前元素、数组 index、整个数组。并返回结果为 true 的元素。
@@ -719,8 +733,7 @@ console.log(result); // [1,2,3,4]
 :::
 
 ## 数组 flat
-
-:::cd
+::: t
 此为 ES6 新增特性，可以将多维数组平为低纬数组。如果不传参数默认拍平一层，传入参数可以规定需要拍平的层级。
 
 ```js
@@ -735,12 +748,10 @@ arr2.flat(); // [1, 2, 3, 4, [5, 6]]
 var arr3 = [1, 2, [3, 4, [5, 6]]];
 arr3.flat(2); // [1, 2, 3, 4, 5, 6]
 ```
-
-:::
+::: 
 
 ## 防抖、节流？
-
-:::cd
+::: t
 **防抖**：触发高频事件后 n 秒内函数只执行一次，如果 n 秒内高频事件再次触发，则重新计算时间。<br  >
 **即短时间内大量触发同一事件，只会执行一次函数，实现原理为设置一个定时器，约定在xx毫秒后再触发事件处理，每次触发事件都会重新设置计时器，直到xx毫秒内无二次操作，防抖常用于搜索框/滚动条的监听事件处理，如果不做防抖，每输入一个字/滚动屏幕，都会触发事件处理，造成性能浪费。**
 
@@ -788,11 +799,8 @@ function hello(e) {
 window.addEventListener("resize", throttle(hello)); // 309 331   节流成功
 ```
 
-:::
-
 ## Set、Map？
 
-::: cd
 `Set` 和 `Map` 主要的应用场景在于 数据重组 和 数据储存。
 
 **Set**是一种集合数据结构，**Map**是一种字典的数据结构。
@@ -921,13 +929,10 @@ const m2 = new Map([["c", 2]]);
 const m3 = new Map(m2);
 m3.get("c"); // 2
 ```
-
-:::
+::: 
 
 ## 判断数据类型的方法
-
-::: cd
-
+::: t
 #### typeof
 
 ```js
@@ -972,12 +977,9 @@ toString.call(null); // [object Null]
 ```
 
 **优点：精准判断数据类型；缺点：写法繁琐，推荐封装后使用**
-
-:::
-
+::: 
 ## var、let、const 的区别
-
-::: cd
+::: t
 `let` 与 `const` 为 `ES6` 新增
 
 - `var` 声明的变量会挂载在`window`上
@@ -992,11 +994,11 @@ toString.call(null); // [object Null]
   ```
 
 - const 一旦声明必须赋值，不能使用 null 占位。声明后不能再修改，如果声明的是复合类型的数据，可以修改其属性。
-  :::
+::: 
 
 ## 定义函数的方法
+::: t
 
-::: cd
 函数声明：
 
 ```js
@@ -1021,12 +1023,10 @@ let say = () => {};
 ```js
 const say = new Function("a", "b");
 ```
-
-:::
+::: 
 
 ## [].slice.call(arguments)
-
-::: cd
+::: t
 
 实现的功能：把类数组对象转为数组对象
 
@@ -1048,12 +1048,9 @@ slice 的原理就是根据传入的原数组或者类数组进行遍历获取�
 **可以理解为让类数组调用数组的方法**。
 
 `[].slice.call(arguments)`
-:::
-
+::: 
 ## 深拷贝
-
-::: cd
-
+::: t
 > **乞丐版**
 ```js
 //定义检测数据类型的功能函数
@@ -1115,12 +1112,9 @@ function clone(target) {
       return cloneObj
     }
 ```
-:::
-
+::: 
 ## 手写 new 操作符
-
-::: cd
-
+::: t
 new 的过程中做了哪些事：
 
 - 因为`new`的结果是一个新对象，创建了一个全新的对象;
@@ -1142,12 +1136,9 @@ function New(f) {
 }
 var obj = New();
 ```
-
-:::
-
+::: 
 ## common.js 和 es6 中模块引入的区别？
-
-::: cd
+::: t
 `CommonJS` 是一种模块规范，最初被应用于 `Nodejs`，成为 `Nodejs` 的模块规范。运行在浏览器端的 `JavaScript` 由于也缺少类似的规范，在 `ES6` 出来之前，前端也实现了一套相同的模块规范 (例如: `AMD`)，用来对前端模块进行管理。自 `ES6` 起，引入了一套新的 `ES6 Module` 规范，在语言标准的层面上实现了模块功能，而且实现得相当简单，有望成为浏览器和服务器通用的模块解决方案。但目前浏览器对 `ES6 Module` 兼容还不太好，我们平时在 `Webpack` 中使用的 `export` 和 `import`，会经过 `Babel` 转换为 `CommonJS` 规范。在使用上的差别主要有：
 
 - `CommonJS` 模块输出的是一个值的拷贝，`ES6` 模块输出的是值的引用。
@@ -1155,5 +1146,4 @@ var obj = New();
 - `CommonJs` 是单个值导出，`ES6 Module` 可以导出多个。
 - `CommonJs` 是动态语法可以写在判断里，`ES6 Module` 静态语法只能写在顶层。
 - `CommonJs` 的 `this` 是当前模块，`ES6 Module` 的 `this` 是 `undefined`。
-
-:::
+::: 

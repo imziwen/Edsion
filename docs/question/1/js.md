@@ -3,9 +3,6 @@
 
 <test/>
 
-::: zimg
-https://cn.vuejs.org/images/logo.png
-:::
 
 ## 啥是执行上下文（也叫执行环境）
 ::: t

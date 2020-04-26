@@ -39,3 +39,20 @@ jsonp('http://ufojs.com','jp',function(value) {
 ## CORS
 
 > 需要服务端设置 `Access-Control-Allow-Origin : xxx.com` 表示哪些域名可以访问。
+
+
+## Websocket
+> 客户端和服务器之间存在持久的连接，而且双方都可以随时开始发送数据.
+>
+
+```javascript
+let socket = new WebSocket('ws://ufojs.com')
+socket.onopen = function() {
+  socket.send('来啦老弟')
+}
+socket.onmessage = function (e) {
+  console.log(e.data)
+}
+```
+## postMessage
+> 可以安全地实现跨源通信

@@ -1,6 +1,12 @@
 # JS 基础小记
 
 
+<test/>
+
+::: zimg
+https://cn.vuejs.org/images/logo.png
+:::
+
 ## 啥是执行上下文（也叫执行环境）
 ::: t
 执行上下文就是当前`JavaScript`代码被解析和执行时所在环境(锅里炒 JS？)的抽象概念。

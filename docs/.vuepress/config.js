@@ -17,32 +17,32 @@ module.exports = {
       })();
     `
     ],
-    [
-      "script",
-      {},
-      `
-      //拿到Performance并且初始化一些参数
-let timing = performance.timing,
-    start = timing.navigationStart,
-    dnsTime = 0,
-    tcpTime = 0,
-    firstPaintTime = 0,
-    domRenderTime = 0,
-    loadTime = 0;
-    //根据提供的api和属性，拿到对应的时间
-    dnsTime = timing.domainLookupEnd - timing.domainLookupStart;
-    tcpTime = timing.connectEnd - timing.connectStart;
-    firstPaintTime = timing.responseStart - start;
-    domRenderTime = timing.domContentLoadedEventEnd - start;
-    loadTime = timing.loadEventEnd - start;
-
-console.log('DNS解析时间:', dnsTime,
-    '\\nTCP建立时间:', tcpTime,
-    '\\n首屏时间:', firstPaintTime,
-    '\\ndom渲染完成时间:', domRenderTime,
-    '\\n页面onload时间:', loadTime);
-    `
-    ],
+//     [
+//       "script",
+//       {},
+//       `
+//       //拿到Performance并且初始化一些参数
+// let timing = performance.timing,
+//     start = timing.navigationStart,
+//     dnsTime = 0,
+//     tcpTime = 0,
+//     firstPaintTime = 0,
+//     domRenderTime = 0,
+//     loadTime = 0;
+//     //根据提供的api和属性，拿到对应的时间
+//     dnsTime = timing.domainLookupEnd - timing.domainLookupStart;
+//     tcpTime = timing.connectEnd - timing.connectStart;
+//     firstPaintTime = timing.responseStart - start;
+//     domRenderTime = timing.domContentLoadedEventEnd - start;
+//     loadTime = timing.loadEventEnd - start;
+//
+// console.log('DNS解析时间:', dnsTime,
+//     '\\nTCP建立时间:', tcpTime,
+//     '\\n首屏时间:', firstPaintTime,
+//     '\\ndom渲染完成时间:', domRenderTime,
+//     '\\n页面onload时间:', loadTime);
+//     `
+//     ],
     [
       "link",
       { rel: "shortcut icon", type: "image/x-icon", href: `/img/favicon.ico` }
@@ -210,6 +210,15 @@ console.log('DNS解析时间:', dnsTime,
         defaultTitle: "",
         before: info => `<div class="custom-block tip">${info}`,
         after: `</div>`
+      }
+    ],
+    [
+      "vuepress-plugin-container",
+      {
+        type: "zimg", // 无标题tips
+        defaultTitle: "",
+        before: info => `<img src=${info}`,
+        after: `class="zoom-custom-imgs">`
       }
     ],
     [

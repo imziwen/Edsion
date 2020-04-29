@@ -38,7 +38,8 @@
 
 ## 页面加载时间监控
 
-![加载时间](/img/pfmc/xntiming.png)
+<img src="/img/pfmc/xntiming.png" alt="加载时间" title="加载时间" class="zoom-custom-imgs">
+
 
 ::: t
 

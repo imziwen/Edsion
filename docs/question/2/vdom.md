@@ -48,8 +48,7 @@
 ```
 
 自己简单画了张图，加深理解：
-
-![](/img/question/vue/diff.png)
+<img src="/img/question/vue/diff.png" alt="子文" title="子文" class="zoom-custom-imgs">
 :::
 
 ### [snabbdom 有空可以研究下](https://github.com/snabbdom/snabbdom)

@@ -66,7 +66,7 @@ module.exports = {
     smoothScroll: true,
     logo: "/img/Javascript.gif",
     nav: [
-      { text: "基础笔记(更新中...)", link: "/question/" }
+      { text: "笔记(更新中...)", link: "/question/" }
       // { text: "打下基础", link: "/notes/" },
       // { text: "小思考", link: "/think/" }
     ],
@@ -254,3 +254,6 @@ module.exports = {
     "@vuepress/back-to-top"
   ]
 };
+
+
+

@@ -6,7 +6,7 @@
 
 请看下图，简单理解 https 的加密原理:
 
-![https](/img/question/network/https.png)
+<img src="/img/question/network/https.png" alt="https" title="https" class="zoom-custom-imgs">
 
 - 客户端向服务器端索要并验证公钥。这一阶段使用的是非对称加密传输(RSA),服务端将数字证书发给客户端.其中数字证书包括:公钥和数字签名.客户端在拿到后对两者进行校验.
 - 在非对称加密传输中,两端协商生成"对话密钥"。

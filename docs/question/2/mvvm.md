@@ -23,7 +23,8 @@ var vm = new Vue({
 
 我们可以看一下通过控制台输出一个定义在 vue 初始化数据上的对象长啥样。
 
-![图片](/img/question/vue/qv1.png)
+<img src="/img/question/vue/qv1.png" alt="子文" title="子文" class="zoom-custom-imgs">
+
 属性 `name` 对应着 `get` 和 `set` 方法，哪来的呢？`Object.defineproperty()`赋予的。
 
 `Object.defineproperty()`到底是何方神圣？详细用法请看[**这里**](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
@@ -34,13 +35,13 @@ var vm = new Vue({
 其实就是数据劫持。接下来我们通过其原理实现一个简易版的 `mvvm` 双向绑定代码。
 主要包含两大重点：**数据(`data`)驱动视图(`view`)**，**视图(`view`)更新数据(`data`)**
 :::
+<img src="/img/question/vue/sxbdyl.jpg" alt="子文" title="子文" class="zoom-custom-imgs">
 
-![双向绑定原理](/img/question/vue/sxbdyl.jpg)
 
 `view` 更新 `data` 可以通过事件监听（比如监听 `input` 事件）
 `data` 更新 `view` 呢？重点是如何知道数据变了。其实不难发现上边的例子中可以看到 `Object.defineProperty()`**给属性设置一个 `set` 函数**，当数据改变了就会触发这个函数，所以我们只要将一些更新 `view` 的方法添加到 `set` 函数里就可以更新 `view` 了。
+<img src="/img/question/vue/qv2.jpg" alt="子文" title="子文" class="zoom-custom-imgs">
 
-![图片](/img/question/vue/qv2.jpg)
 
 #### 实现双向绑定
 

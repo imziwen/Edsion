@@ -32,9 +32,11 @@ diff算法将newVDom与改变前的Dom结构(oldVDom)进行比较，我们找到
 - v最后key为4的标签被移除
 
 **修改前：用index下标**
-![vdom1](/img/question/vue/vdom1.gif)
+<img src="/img/question/vue/vdom1.gif" alt="子文" title="子文" class="zoom-custom-imgs">
+
 **修改后：不用index下标**
-![vdom2](/img/question/vue/vdom2.gif)
+<img src="/img/question/vue/vdom2.gif" alt="子文" title="子文" class="zoom-custom-imgs">
+
 
 
 一眼明了！

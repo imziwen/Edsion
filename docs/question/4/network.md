@@ -4,8 +4,8 @@
 > 最近看了李兵老师讲解浏览器的文章，对从输入 URL 到看到页面发生的全过程这个问题有了更深层次的认知，总结如下：
 >
 >
+<img src="/img/question/network/urltoview.png" alt="从输入 URL 到看到页面发生的全过程" title="从输入 URL 到看到页面发生的全过程" class="zoom-custom-imgs">
 
-![从输入 URL 到看到页面发生的全过程](/img/question/network/urltoview.png)
 
 
 <!-- ## 总体大致分为以下过程： -->
@@ -44,8 +44,7 @@
 :::cd
 
 如下图所示，tcp 建立连接的过程：
-
-![tcp3](/img/question/network/tcp3.png)s
+<img src="/img/question/network/tcp3.png" alt="tcp" title="tcp" class="zoom-custom-imgs">
 
 - 第一次握手
 
@@ -92,7 +91,9 @@
 ### HTTP 请求
 
 - 完整的 HTTP 请求包含请求行、请求头、请求体三部分。
-  ![http](/img/question/network/http1.png)
+
+<img src="/img/question/network/http1.png" alt="http" title="http" class="zoom-custom-imgs">
+
 - 服务器收到浏览器发送的 HTTP 请求之后，会将收到的 HTTP 报文封装成 HTTP 的 Request 对象，并通过不同的 web 服务器进行处理，处理完的结果以 HTTP 的 Response 对象返回，主要包括状态码、响应头、响应报文三个部分。
 - 完整的 HTTP 请求报文一般包括：通用头部、请求/响应头部、请求/响应体
 
@@ -197,7 +198,8 @@ Server：服务器的一些相关信息
 
 一般现在的接口请求时，实体中就是对于的信息的 json 格式，而像页面请求这种，里面就是直接放了一个 html 字符串，然后浏览器自己解析并渲染。
 
-![http](/img/question/network/httpstatus.png)
+<img src="/img/question/network/httpstatus.png" alt="https" title="https" class="zoom-custom-imgs">
+
 
 :::
 
@@ -234,16 +236,14 @@ repaint：中文重绘，意味着元素发生的改变只是影响了元素的�
    - 绘制阶段，系统会遍历呈现树，并调用呈现器的“paint”方法，将呈现器的内容显示在屏幕上。
    - 重绘 `repaint`：某个元素的背景颜色，文字颜色等，不影响元素周围或内部布局的属性，将只会引起浏览器的重绘。
    - 回流 `reflow`：某个元素的尺寸发生了变化，则需重新计算渲染树，重新渲染。
-
-     ![domrender](/img/question/network/domrender.png)
+    <img src="/img/question/network/domrender.png" alt="domrender" title="domrender" class="zoom-custom-imgs">
 
 :::
 
 ## 6. TCP 关闭连接（四次挥手）
 
 :::cd
-
-![tcp4](/img/question/network/tcp4.png)
+    <img src="/img/question/network/tcp4.png" alt="tcp" title="tcp" class="zoom-custom-imgs">
 
 - 第一次挥手：
   - Client 发送一个 FIN，用来关闭 Client 到 Server 的数据传送，Client 进入 FIN_WAIT_1 状态。(第一次挥手：由浏览器发起的，发送给服务器，我请求报文发送完了，你准备关闭吧)

@@ -45,8 +45,8 @@ console.log("Inside Global Execution Context");
 // Again inside first function
 // Inside Global Execution Context
 ```
+<img src="/img/notes/1/zxsxw.jpg" alt="子文" title="子文" class="zoom-custom-imgs">
 
-![执行上下文](/img/notes/1/zxsxw.jpg)
 ::: 
 
 ## 执行上下文是如何被创建的？
@@ -242,8 +242,8 @@ student.DoSth2(); // '全局对象window'
   n4.name; // 'ziwen'
   ```
 - 原型、构造函数、实例、原型链
+<img src="/img/question/js/yuanxing.png" alt="子文" title="子文" class="zoom-custom-imgs">
 
-  ![原型链](/img/question/js/yuanxing.png)
 
 通过`[[__proto__]]`这个属性组成的链，就叫做原型链。原型链的顶端是 null，往下是 Object 对象，只要是对象或函数类型都会有`[[__proto__]]`这个属性，大家都是 js-family 的一员。
 

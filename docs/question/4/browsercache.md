@@ -96,7 +96,9 @@ Cache-Control:max-age = 2000
 
 **`ETag` 相对于 `Last-Modified` 也有其优势，可以更加准确的判断文件内容是否被修改， 从而在实际操作中实用程度也更高,但缺点也很明显,由于需要对资源进行生成标识，性能方面就势必有所牺牲。**
 
-![cache](/img/question/network/cache304.png)
+
+<img src="/img/question/network/cache304.png" alt="cache" title="cache" class="zoom-custom-imgs">
+
 
 **`ETag` 与 `If-None-Match` > `Last-Modified` 与 `If-Modified-Since`, 同时存在时, 前者覆盖后者.**
 

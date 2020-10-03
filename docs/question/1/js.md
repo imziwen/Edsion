@@ -1,10 +1,9 @@
 # JS 基础小记
 
-
 <test/>
 
-
 ## 啥是执行上下文（也叫执行环境）
+
 ::: t
 执行上下文就是当前`JavaScript`代码被解析和执行时所在环境(锅里炒 JS？)的抽象概念。
 
@@ -19,6 +18,7 @@
 :::
 
 ## 啥是执行栈
+
 ::: t
 它在其它编程语言中叫做调用栈，具有 `LIFO`（后进先出）结构，用于存贮在代码执行期间创建的所有执行上下文。
 
@@ -27,27 +27,28 @@
 引擎会运行执行上下文在执行栈顶端的函数，当次函数运行完成后，其对应的执行上下文将会从执行栈中弹出，上下文控制权将移交到当前执行栈的下一个执行上下文。
 
 ```javascript
-let a = "你好啊";
+let a = '你好啊'
 
 function first() {
-  console.log("Inside first function");
-  second();
-  console.log("Again inside first function");
+    console.log('Inside first function')
+    second()
+    console.log('Again inside first function')
 }
 function second() {
-  console.log("Inside second function");
+    console.log('Inside second function')
 }
 
-first();
-console.log("Inside Global Execution Context");
+first()
+console.log('Inside Global Execution Context')
 // Inside first function
 // Inside second function
 // Again inside first function
 // Inside Global Execution Context
 ```
+
 <img src="/img/notes/1/zxsxw.jpg" alt="子文" title="子文" class="zoom-custom-imgs">
 
-::: 
+:::
 
 ## 执行上下文是如何被创建的？
 
@@ -56,29 +57,29 @@ console.log("Inside Global Execution Context");
 
 ### 创建阶段
 
-- :one: 确定 this 的值，称为 This Binding。
-- :two: LexicalEnvironment（词法环境） 组件被创建。
-- :three: VariableEnvironment（变量环境） 组件被创建。
+-   :one: 确定 this 的值，称为 This Binding。
+-   :two: LexicalEnvironment（词法环境） 组件被创建。
+-   :three: VariableEnvironment（变量环境） 组件被创建。
 
 #### This Binding
 
-- 全局执行上下文中，this 的值指向全局对象 window（浏览器中）
-- 函数执行上下文中，this 的值取决于函数的调用方式。如果被一个对象调用，那么 this 的值就被设置为此对象，否则 this 的值被设置为全局对象或 undefined(严格模式下)
+-   全局执行上下文中，this 的值指向全局对象 window（浏览器中）
+-   函数执行上下文中，this 的值取决于函数的调用方式。如果被一个对象调用，那么 this 的值就被设置为此对象，否则 this 的值被设置为全局对象或 undefined(严格模式下)
 
 ```javascript
 let person = {
-  name: "ziwen",
-  birthYear: 1999,
-  calcAge: function() {
-    console.log(2019 - this.birthYear);
-  }
-};
+    name: 'ziwen',
+    birthYear: 1999,
+    calcAge: function() {
+        console.log(2019 - this.birthYear)
+    },
+}
 
-person.calcAge(); // 20
+person.calcAge() // 20
 // 'this' 指向 'person', 因为 'calcAge' 是被 'person' 对象引用调用的。
 
-let calculateAge = person.calcAge;
-calculateAge(); // NaN
+let calculateAge = person.calcAge
+calculateAge() // NaN
 // 'this' 指向全局 window 对象,因为没有给出任何对象引用
 ```
 
@@ -90,8 +91,8 @@ calculateAge(); // NaN
 
 在词法环境中有两个组成部分：:one: 环境记录 :two: 对外部环境的引用
 
-- 环境记录是存储变量和函数声明的实际位置。
-- 对外部环境的引用意味着它可以访问其外部词法环境。
+-   环境记录是存储变量和函数声明的实际位置。
+-   对外部环境的引用意味着它可以访问其外部词法环境。
 
 词法环境由两种类型：
 
@@ -108,16 +109,16 @@ calculateAge(); // NaN
 来吧，上代码瞧瞧：
 
 ```js
-let a = 20;
-const b = 30;
-var c;
+let a = 20
+const b = 30
+var c
 
 function multiply(e, f) {
-  var g = 20;
-  return e * f * g;
+    var g = 20
+    return e * f * g
 }
 
-c = multiply(20, 30);
+c = multiply(20, 30)
 ```
 
 执行上下文如下所示：
@@ -183,74 +184,76 @@ FunctionExectionContext = {
 
 [参考文章](https://blog.bitsrc.io/understanding-execution-context-and-execution-stack-in-javascript-1c9ea8642dd0)
 [官方 ES6](http://ecma-international.org/ecma-262/6.0/)
-::: 
-## 箭头函数this?
+:::
+
+## 箭头函数 this?
+
 ::: t
+
 > 1. 没有自己的`this`、`super`、`arguments`和`new.target`绑定
 > 2. 不能使用`new`来调用
 > 3. 没有原型对象
 > 4. 不可以改变`this`的绑定
 > 5. 形参名称不能重复
->
 
 箭头函数其实并没有自己的`this`,它需要通过查找作用域链来决定其值。
 
-该箭头函数绑定上层非箭头函数的`this`,否则this将被设置为全局对象`window`。
+该箭头函数绑定上层非箭头函数的`this`,否则 this 将被设置为全局对象`window`。
 
 ```javascript
-var name = '全局对象window';
+var name = '全局对象window'
 var student = {
     name: 'ziwen',
-    doSth: function(){
+    doSth: function() {
         // var self = this;
         var DoSth = () => {
             // console.log(self.name);
-            console.log(this.name);
+            console.log(this.name)
         }
-        DoSth();
+        DoSth()
     },
     DoSth2: () => {
-        console.log(this.name);
-    }
+        console.log(this.name)
+    },
 }
 
 // 箭头函数DoSth的上层非箭头函数普通函数为doSth
-student.doSth(); // 'ziwen'
+student.doSth() // 'ziwen'
 // 箭头函数DoSth2上层没有非箭头函数的普通函数，则绑定全局对象window
-student.DoSth2(); // '全局对象window'
-
+student.DoSth2() // '全局对象window'
 ```
+
 :::
 
-
-
 ## 原型链类
-::: t
-- 创建对象的几种方法
-  ```js
-  // 第一种方式：字面量创建
-  var n1 = { name: "ziwen" };
-  var n2 = new Object({ name: "ziwen" }); // {name: 'ziwen'}
-  // 第二种方式：通过构造函数
-  var Z = function(name) {
-    this.name = name;
-  };
-  var n3 = new Z("ziwen"); // {name: 'ziwen'}
-  // 第三种方式：Object.create
-  var W = { name: "ziwen" };
-  var n4 = Object.create(W); // {}
-  n4.name; // 'ziwen'
-  ```
-- 原型、构造函数、实例、原型链
-<img src="/img/question/js/yuanxing.png" alt="子文" title="子文" class="zoom-custom-imgs">
 
+::: t
+
+-   创建对象的几种方法
+    ```js
+    // 第一种方式：字面量创建
+    var n1 = { name: 'ziwen' }
+    var n2 = new Object({ name: 'ziwen' }) // {name: 'ziwen'}
+    // 第二种方式：通过构造函数
+    var Z = function(name) {
+        this.name = name
+    }
+    var n3 = new Z('ziwen') // {name: 'ziwen'}
+    // 第三种方式：Object.create
+    var W = { name: 'ziwen' }
+    var n4 = Object.create(W) // {}
+    n4.name // 'ziwen'
+    ```
+-   原型、构造函数、实例、原型链
+    <img src="/img/question/js/yuanxing.png" alt="子文" title="子文" class="zoom-custom-imgs">
 
 通过`[[__proto__]]`这个属性组成的链，就叫做原型链。原型链的顶端是 null，往下是 Object 对象，只要是对象或函数类型都会有`[[__proto__]]`这个属性，大家都是 js-family 的一员。
 
 **[理解 constructor、prototype、**proto**和原型链](https://juejin.im/post/5cc99fdfe51d453b440236c3)**
-::: 
+:::
 
 ## typeof 与 instanceof 有什么区别
+
 ::: t
 `JavaScript` 中的数据类型分为两类：基本数据类型、对象类型。
 
@@ -258,19 +261,19 @@ student.DoSth2(); // '全局对象window'
 
 对象类型：Object（引用类型）
 
-- typeof x 返回值的类型：
+-   typeof x 返回值的类型：
 
 ```js
-typeof 1; // Number
-typeof "1"; // String
-typeof true; // Boolean
-typeof null; // Object
-typeof undefined; // undefined
-typeof function() {}; // function
-typeof {}; // Object
+typeof 1 // Number
+typeof '1' // String
+typeof true // Boolean
+typeof null // Object
+typeof undefined // undefined
+typeof function() {} // function
+typeof {} // Object
 ```
 
-- instanceof 用于判断该对象是否在目标实例的原型链上。
+-   instanceof 用于判断该对象是否在目标实例的原型链上。
 
 语法：`object instanceof constructor`(某个实例对象 instanceof 某个构造函数)
 
@@ -278,24 +281,28 @@ typeof {}; // Object
 
 ```js
 function A(a) {
-  this.a = a;
+    this.a = a
 }
-let b = new A(1);
-console.log(b instanceof A); // true
-console.log(b instanceof Object); // true
+let b = new A(1)
+console.log(b instanceof A) // true
+console.log(b instanceof Object) // true
 ```
-::: 
+
+:::
+
 ## NaN 与 undefined 与 null
+
 ::: t
-- **NaN 是一个全局对象的属性。代表非数字的特殊值，用于表示某个值不是数字。**
+
+-   **NaN 是一个全局对象的属性。代表非数字的特殊值，用于表示某个值不是数字。**
 
 NaN 是 Number 对象中的静态属性
 
 ```js
-typeof NaN; // Number
-NaN === NaN; // false
-isNaN(NaN); // true    ES6中新增
-isNaN(Number.NaN); // true
+typeof NaN // Number
+NaN === NaN // false
+isNaN(NaN) // true    ES6中新增
+isNaN(Number.NaN) // true
 ```
 
 请注意 `isNaN()`和 `Number.isNaN()`之间的区别：如果当前值是 `NaN`，或者将其强制转换为数字后将是 `NaN`，则前者将返回 `true`。而后者仅当值当前为 `NaN` 时才为 `true`：
@@ -305,177 +312,183 @@ isNaN('ziwen'); // true
 Number.isNaN('ziwen'); // false
 ```
 
-- **`undefined` 是未指定值的变量的默认值，或者没有显式返回值的函数，对象中不存在的属性，这些 `JavaScript` 都会为其分配 `undefined` 值。**
+-   **`undefined` 是未指定值的变量的默认值，或者没有显式返回值的函数，对象中不存在的属性，这些 `JavaScript` 都会为其分配 `undefined` 值。**
 
 ```js
-let name;
-const say = () => {};
+let name
+const say = () => {}
 const person = {
-  name: "ziwen",
-  age: "18"
-};
-console.log(name); // undefined
-console.log(say()); // undefined
-console.log(person["company"]); // undefined
+    name: 'ziwen',
+    age: '18',
+}
+console.log(name) // undefined
+console.log(say()) // undefined
+console.log(person['company']) // undefined
 ```
 
-- **`null`是不代表任何值的值。`null`值表示一个空对象指针，而这也正是使用`typeof`操作符检测`null`值时会返回`object`的原因。**
+-   **`null`是不代表任何值的值。`null`值表示一个空对象指针，而这也正是使用`typeof`操作符检测`null`值时会返回`object`的原因。**
 
 **如果定义的变量准备在将来保存对象，最好将该变量初始化为`null`。**
 
 实际上，`undefined`值是派生自`null`值的，因此 ECMA-262 规定它们的相等性测试要返回`true`：
 
 ```js
-null == undefined; // true
-null === undefined; // false
+null == undefined // true
+null === undefined // false
 ```
 
 **一句话总结：`undefined`表示值不存在，`null`表示值存在但是为空，没有意义。**
-::: 
+:::
+
 ## 原型继承与 class 继承
+
 ::: t
 
-- 组合继承
+-   组合继承
 
 ```js
 // 父类
 function Parent(n) {
-  this.name = n;
+    this.name = n
 }
 Parent.prototype.say = function() {
-  console.log(this.name);
-};
+    console.log(this.name)
+}
 
 // 子类
 function Child(n) {
-  // 继承父类属性
-  Parent.call(this, n);
+    // 继承父类属性
+    Parent.call(this, n)
 }
 // 改变子类的原型为 new Parent()来继承父类的函数
-Child.prototype = new Parent();
+Child.prototype = new Parent()
 
-var child = new Child("ziwen");
+var child = new Child('ziwen')
 
-child.say(); // ziwen
-child instanceof Parent; // true
+child.say() // ziwen
+child instanceof Parent // true
 ```
 
 **优点：构造函数可以传参，不会与父类引用属性共享，可以复用父类的函数。**
 
 **缺点：继承父类函数的时候调用了父类构造函数，导致子类的原型上多了不需要的父类属性，存在内存上的浪费。**
 
-- **☆寄生组合继承（目前最优雅）**
+-   **☆ 寄生组合继承（目前最优雅）**
 
 ```js
 // 寄生组合继承
 function Parent(n) {
-  this.name = n;
+    this.name = n
 }
 Parent.prototype.say = function() {
-  console.log(this.name);
-};
+    console.log(this.name)
+}
 
 function Child(n) {
-  // 继承父类属性
-  Parent.call(this, n);
+    // 继承父类属性
+    Parent.call(this, n)
 }
 // 子类原型等于一个原型为父类原型的新对象，实现继承
-Child.prototype = Object.create(Parent.prototype,{
-// 重新指定constructor
-// 添加到新创建对象的不可枚举（默认）属性
-// （即其自身定义的属性，而不是其原型链上的枚举属性）
-// 对象的属性描述符以及相应的属性名称。这些属性对应Object.defineProperties()的第二个参数。
+Child.prototype = Object.create(Parent.prototype, {
+    // 重新指定constructor
+    // 添加到新创建对象的不可枚举（默认）属性
+    // （即其自身定义的属性，而不是其原型链上的枚举属性）
+    // 对象的属性描述符以及相应的属性名称。这些属性对应Object.defineProperties()的第二个参数。
     constructor: {
-        value: Child
-// 详见MDN  Object.create()
-    }
-});
+        value: Child,
+        // 详见MDN  Object.create()
+    },
+})
 // 另一种写法
 // Child.prototype = Object.create(Parent.prototype)
 // 重新指定constructor
 // Child.prototype.constructor = Child;
 
-var child = new Child("ziwen");
+var child = new Child('ziwen')
 
-child.say(); // 'ziwen'
-child instanceof Parent; // true
+child.say() // 'ziwen'
+child instanceof Parent // true
 ```
 
 **优点：优化掉了继承父类函数时调用构造函数问题；解决了无用父类属性问题，正确找到子类的构造函数。**
 
-- Class 继承
+-   Class 继承
 
 ```js
 class Parent {
-  constructor(n) {
-    this.name = n;
-  }
+    constructor(n) {
+        this.name = n
+    }
 
-  say() {
-    console.log(this.name);
-  }
+    say() {
+        console.log(this.name)
+    }
 }
 // 核心部分
 class Child extends Parent {
-  constructor(n, a) {
-    super(n, a);
-    this.age = a;
-  }
+    constructor(n, a) {
+        super(n, a)
+        this.age = a
+    }
 }
 
-let child = new Child("ziwen", 18);
+let child = new Child('ziwen', 18)
 
-child.say(); // ziwen
+child.say() // ziwen
 
-child instanceof Parent; // true
+child instanceof Parent // true
 ```
 
 **class 实现继承的核心在于使用 extends 表明继承自哪个父类，并且在子类构造函数中必须调用 super，因为这段代码可以看成 Parent.call(this,n,a)。**
 
-::: 
+:::
+
 ## EventLoop
+
 ::: t
+
 ```javascript
-console.log('1');
-async function async1(){
-  console.log('2');
-  await console.log('3');
-  console.log('4');
+console.log('1')
+async function async1() {
+    console.log('2')
+    await console.log('3')
+    console.log('4')
 }
 
-setTimeout(function(){
-  console.log('5');
-  }, 0);
-async1();
-new Promise(function(resolve){
-  console.log('6');
-  resolve();
+setTimeout(function() {
+    console.log('5')
+}, 0)
+async1()
+new Promise(function(resolve) {
+    console.log('6')
+    resolve()
+}).then(function() {
+    console.log('7')
 })
-  .then(function(){
-    console.log('7');
-  });
-console.log('8');
+console.log('8')
 // 12368475
 ```
 
 ```javascript
-setTimeout(function(){
-  console.log(1);
+setTimeout(function() {
+    console.log(1)
 })
-Promise.resolve(function(){
-  console.log(2)
+Promise.resolve(function() {
+    console.log(2)
 })
-new Promise(function(resolve){
-  console.log(3);
-  resolve();
-})
-  .then(function(){
+new Promise(function(resolve) {
+    console.log(3)
+    resolve()
+}).then(function() {
     console.log(4)
-  })
+})
 // console.log(5) // 3541
 ```
-::: 
+
+:::
+
 ## 闭包？
+
 ::: t
 
 简单理解就是：函数 `A` 中包含函数 `B`，且函数`B`中使用了函数`A`的变量，`return` 出函数 `B` 后，函数 `B` 还能访问函数 `A` 中的变量。
@@ -484,138 +497,143 @@ new Promise(function(resolve){
 
 ```js
 function A() {
-  var n = 66;
-  function B() {
-    console.log(n);
-  }
-  return B;
+    var n = 66
+    function B() {
+        console.log(n)
+    }
+    return B
 }
 
-var result = A();
-result(); // 66
+var result = A()
+result() // 66
 ```
-::: 
+
+:::
 
 ## 数组 Array 的常用 API
+
 ::: t
 
 **迭代相关**
 
-- **map()**
+-   **map()**
 
 `对数组每一项运行给定函数，返回每次函数调用的结果组成的数组`
 
-- **forEach()**
+-   **forEach()**
 
 `对数组每一项运行给定函数，没有返回值`
 
-- **filter()**
+-   **filter()**
 
 `对数组每一项运行给定函数，返回该函数会返回true的项`
 
-- **every()**
+-   **every()**
 
 `对数组每一项运行给定函数，全true则返回true`
 
-- **some()**
+-   **some()**
 
 `对数组每一项运行给定函数，任意一项返回true，则返回true`
 
 **其它**
 
-- **push()和 pop()**
+-   **push()和 pop()**
 
 `数组尾部推入和弹出，改变原数组，返回操作项`
 
-- **unshift()和 shift()**
+-   **unshift()和 shift()**
 
 `数组头部推入和弹出，改变原数组，返回操作项`
 
-- **slice(start,end)**
+-   **slice(start,end)**
 
 `截断数组，返回截断后的新数组，不改变原数组`
 
-- **splice(start,number,arg...)**
+-   **splice(start,number,arg...)**
 
 `从下标start开始，删除number个元素，并插入arg，返回所删除元素组成的数组，改变原数组`
 
-- **indexOf(value,fromIndex[可选])**
+-   **indexOf(value,fromIndex[可选])**
 
 `查找数组元素，返回下标索引，没有则返回 -1`
 
-- **reduce(fn(total,currentValue,currentIndex[可选],arr[可选]),initialValue[可选])**
+-   **reduce(fn(total,currentValue,currentIndex[可选],arr[可选]),initialValue[可选])**
 
 `reduce() 方法接收一个函数作为累加器，数组中的每个值（从左到右）开始缩减，最终为一个值`
 
-- **join('连接符')**
+-   **join('连接符')**
 
 `通过指定连接符，生成字符串`
-::: 
+:::
 
 ## 数组去重的简单几种方法
+
 ::: t
 
 简单整理以下几种：
 
 ```js
-let originalArray = [1, 2, 3, 4, 5, 3, 2, 4, 1];
+let originalArray = [1, 2, 3, 4, 5, 3, 2, 4, 1]
 
 // 方式1
-const result = Array.from(new Set(originalArray));
-console.log(result); // -> [1, 2, 3, 4, 5]
+const result = Array.from(new Set(originalArray))
+console.log(result) // -> [1, 2, 3, 4, 5]
 
 // 方式2
-const result = [];
-const map = new Map();
+const result = []
+const map = new Map()
 for (let v of originalArray) {
-  if (!map.has(v)) {
-    map.set(v, true);
-    result.push(v);
-  }
+    if (!map.has(v)) {
+        map.set(v, true)
+        result.push(v)
+    }
 }
-console.log(result); // -> [1, 2, 3, 4, 5]
+console.log(result) // -> [1, 2, 3, 4, 5]
 
 // 方式3
-const result = [];
+const result = []
 for (let v of originalArray) {
-  if (!result.includes(v)) {
-    result.push(v);
-  }
+    if (!result.includes(v)) {
+        result.push(v)
+    }
 }
-console.log(result); // -> [1, 2, 3, 4, 5]
+console.log(result) // -> [1, 2, 3, 4, 5]
 
 // 方式4
 for (let i = 0; i < originalArray.length; i++) {
-  for (let j = i + 1; j < originalArray.length; j++) {
-    if (originalArray[i] === originalArray[j]) {
-      originalArray.splice(j, 1);
-      j--;
+    for (let j = i + 1; j < originalArray.length; j++) {
+        if (originalArray[i] === originalArray[j]) {
+            originalArray.splice(j, 1)
+            j--
+        }
     }
-  }
 }
-console.log(originalArray); // -> [1, 2, 3, 4, 5]
+console.log(originalArray) // -> [1, 2, 3, 4, 5]
 
 // 方式5
-const obj = {};
-const result = originalArray.filter(item =>
-  obj.hasOwnProperty(typeof item + item)
-    ? false
-    : (obj[typeof item + item] = true)
-);
-console.log(result); // -> [1, 2, 3, 4, 5]
+const obj = {}
+const result = originalArray.filter((item) =>
+    obj.hasOwnProperty(typeof item + item)
+        ? false
+        : (obj[typeof item + item] = true)
+)
+console.log(result) // -> [1, 2, 3, 4, 5]
 ```
-::: 
+
+:::
 
 ## 简洁版 Promise
+
 ::: t
 
 众所周知，Promise 需要 new，构造函数无疑。
 
 关键点：
 
-- 三个状态：`pending`、`fulfilled`、`rejected` (等待态、成功态、失败态)
-- 结果分为两种：`pending => fulfilled` 和 `pending => rejected` 能且只能朝着其中一个方向进行。到达`fulfilled`或者`rejected`时不能转变，且必须有一个不可改变的值或者原因。
-- 有一个`then`方法，里边有两个参数：`onFulfilled`和`onRejected`。当状态`state`为`fulfilled`，则执行`onFulfilled`，传入`this.value`。当状态`state`为`rejected`，则执行`onRejected`，传入`this.reason`
+-   三个状态：`pending`、`fulfilled`、`rejected` (等待态、成功态、失败态)
+-   结果分为两种：`pending => fulfilled` 和 `pending => rejected` 能且只能朝着其中一个方向进行。到达`fulfilled`或者`rejected`时不能转变，且必须有一个不可改变的值或者原因。
+-   有一个`then`方法，里边有两个参数：`onFulfilled`和`onRejected`。当状态`state`为`fulfilled`，则执行`onFulfilled`，传入`this.value`。当状态`state`为`rejected`，则执行`onRejected`，传入`this.reason`
 
 ```js
 class Promise {
@@ -687,37 +705,44 @@ class Promise {
 [扩展 0](https://juejin.im/post/5b2f02cd5188252b937548ab)
 
 [扩展 1](https://promisesaplus.com/)
-::: 
+:::
 
 ## forEach、map 和 filter 的区别
+
 ::: t
 `forEach`遍历数组，参数是一个回调函数，回调函数接收三个参数：当前元素、元素索引、整个数组。
 
 `map`遍历数组，但其回调函数的返回值组成一个新数组，数组的索引结构和原数组一致，原数组不变。
 
 `filter`会返回原数组的一个子集，回调函数用于逻辑判断，返回`true`则将当前元素添加到返回数组中，否则排除当前元素，原数组不变。
-::: 
+:::
 
 ## delete 数组的一项，数组的 length 是否会减 1
+
 ::: t
+
 ```js
-var a = ["a", "b", "c"];
-delete a[0];
-console.log(a.length); // 3
-console.log(a); // ['b','c']
+var a = ['a', 'b', 'c']
+delete a[0]
+console.log(a.length) // 3
+console.log(a) // ['b','c']
 ```
 
 `length`不变，此时`a[0]`为`undefined`，原数组的索引也保持不变。可以理解为：**萝卜拔掉了 坑还在**。
-::: 
+:::
 
 ## call 和 apply 的异同点是什么？哪个性能更好一些？
-::: t
-- **作用是相同的，传入的第一个参数也都是相同的，都是函数体内`this`的指向；**
-- **区别在于第二个传入参数的不同**。`call`从第二个参数开始都是不固定的，`apply`第二个参数是传入带下标的集合，数组或者类数组，`apply`把这个数组当做一整个参数;
-- `call`的性能要好于`apply`，`call`少了一次给第二个参数解构或者判断的操作。根据业务场景灵活使用，存在即合理。
 
-::: 
+::: t
+
+-   **作用是相同的，传入的第一个参数也都是相同的，都是函数体内`this`的指向；**
+-   **区别在于第二个传入参数的不同**。`call`从第二个参数开始都是不固定的，`apply`第二个参数是传入带下标的集合，数组或者类数组，`apply`把这个数组当做一整个参数;
+-   `call`的性能要好于`apply`，`call`少了一次给第二个参数解构或者判断的操作。根据业务场景灵活使用，存在即合理。
+
+:::
+
 ## 数组 filter
+
 ::: t
 对数组进行过滤。创建一个新数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。（不会检测空数组，不会改变原数组）
 
@@ -736,28 +761,30 @@ console.log(result); // [1,2,3,4]
 :::
 
 ## 数组 flat
+
 ::: t
 此为 ES6 新增特性，可以将多维数组平为低纬数组。如果不传参数默认拍平一层，传入参数可以规定需要拍平的层级。
 
 ```js
-var newArr = arr.flat([depth]); // depth可选，默认值为1，返回一个包含数组与子数组所有元素的新数组。
+var newArr = arr.flat([depth]) // depth可选，默认值为1，返回一个包含数组与子数组所有元素的新数组。
 
-var arr1 = [1, 2, [4, 5]];
-arr1.flat(); // [1,2,4,5]
+var arr1 = [1, 2, [4, 5]]
+arr1.flat() // [1,2,4,5]
 
-var arr2 = [1, 2, [3, 4, [5, 6]]];
-arr2.flat(); // [1, 2, 3, 4, [5, 6]]
+var arr2 = [1, 2, [3, 4, [5, 6]]]
+arr2.flat() // [1, 2, 3, 4, [5, 6]]
 
-var arr3 = [1, 2, [3, 4, [5, 6]]];
-arr3.flat(2); // [1, 2, 3, 4, 5, 6]
+var arr3 = [1, 2, [3, 4, [5, 6]]]
+arr3.flat(2) // [1, 2, 3, 4, 5, 6]
 ```
-::: 
+
+:::
 
 ## 防抖、节流？
+
 ::: t
 **防抖**：触发高频事件后 n 秒内函数只执行一次，如果 n 秒内高频事件再次触发，则重新计算时间。<br  >
-**即短时间内大量触发同一事件，只会执行一次函数，实现原理为设置一个定时器，约定在xx毫秒后再触发事件处理，每次触发事件都会重新设置计时器，直到xx毫秒内无二次操作，防抖常用于搜索框/滚动条的监听事件处理，如果不做防抖，每输入一个字/滚动屏幕，都会触发事件处理，造成性能浪费。**
-
+**即短时间内大量触发同一事件，只会执行一次函数，实现原理为设置一个定时器，约定在 xx 毫秒后再触发事件处理，每次触发事件都会重新设置计时器，直到 xx 毫秒内无二次操作，防抖常用于搜索框/滚动条的监听事件处理，如果不做防抖，每输入一个字/滚动屏幕，都会触发事件处理，造成性能浪费。**
 
 思路：每次触发事件时取消之前的延时调用方法
 
@@ -781,25 +808,25 @@ inp.addEventListener('input',debounce(hello));//hello 成功防抖
 
 **节流**：高频事件触发，但在 n 秒内只会执行一次，稀释函数的执行频率。<br>
 
-**函数节流即每隔一段时间就执行一次，实现原理为设置一个定时器，约定xx毫秒后执行事件，如果时间到了，那么执行函数并重置定时器，和防抖的区别在于，防抖每次触发事件都重置定时器，而节流在定时器到时间后再清空定时器**<br>
+**函数节流即每隔一段时间就执行一次，实现原理为设置一个定时器，约定 xx 毫秒后执行事件，如果时间到了，那么执行函数并重置定时器，和防抖的区别在于，防抖每次触发事件都重置定时器，而节流在定时器到时间后再清空定时器**<br>
 思路：每次触发事件时都判断当前是否有等待执行的延时函数。
 
 ```js
 function throttle(fn, delay) {
-  let canRun = true;
-  return function() {
-    if (!canRun) return;
-    canRun = false;
-    setTimeout(() => {
-      fn.apply(this, arguments);
-      canRun = true;
-    }, delay);
-  };
+    let canRun = true
+    return function() {
+        if (!canRun) return
+        canRun = false
+        setTimeout(() => {
+            fn.apply(this, arguments)
+            canRun = true
+        }, delay)
+    }
 }
 function hello(e) {
-  console.log(e.target.innerWidth, e.target.innerHeight);
+    console.log(e.target.innerWidth, e.target.innerHeight)
 }
-window.addEventListener("resize", throttle(hello)); // 309 331   节流成功
+window.addEventListener('resize', throttle(hello)) // 309 331   节流成功
 ```
 
 ## Set、Map？
@@ -813,16 +840,16 @@ window.addEventListener("resize", throttle(hello)); // 309 331   节流成功
 `Set` 是一种构造函数，用来生成 `Set` 数据结构。
 
 ```js
-const a = new Set();
-[1, 2, 3, 3, 4, 5, 5].forEach(i => a.add(i));
+const a = new Set()
+;[1, 2, 3, 3, 4, 5, 5].forEach((i) => a.add(i))
 for (let i of a) {
-  // 成员唯一
-  console.log(i); // 1,2,3,4,5
+    // 成员唯一
+    console.log(i) // 1,2,3,4,5
 }
 
 // 去除数组中的重复值
-let arr = [1, 2, 3, 3, 4, 4, 5, 5, 5];
-[...new Set(arr)]; //[1,2,3,4,5]
+let arr = [1, 2, 3, 3, 4, 4, 5, 5, 5]
+;[...new Set(arr)] //[1,2,3,4,5]
 ```
 
 Set 实例属性
@@ -830,41 +857,41 @@ Set 实例属性
 size: 元素数量
 
 ```js
-let s = new Set([1, 2, 3, 3]);
-console.log(s.length); // undefined
-console.log(s.size); // 3
+let s = new Set([1, 2, 3, 3])
+console.log(s.length) // undefined
+console.log(s.size) // 3
 ```
 
 Set 实例方法
 
 操作方法：
 
-- `add(value)`:新增，相当于数组的 `push`
-- `delete(value)`:如果存在即删除集合中的 `value`
-- `has(value)`:判断集合中是否存在 `value`
-- `clear()`:清空集合
+-   `add(value)`:新增，相当于数组的 `push`
+-   `delete(value)`:如果存在即删除集合中的 `value`
+-   `has(value)`:判断集合中是否存在 `value`
+-   `clear()`:清空集合
 
 遍历方法：
 
-- `keys()`:返回一个包含集合中所有键的迭代器
-- `values()`:返回一个包含集合中所有值的迭代器
-- `entries()`:返回一个包含 `Set` 中所有元素键值对的迭代器
+-   `keys()`:返回一个包含集合中所有键的迭代器
+-   `values()`:返回一个包含集合中所有值的迭代器
+-   `entries()`:返回一个包含 `Set` 中所有元素键值对的迭代器
 
 Set 的遍历顺序就是插入顺序。这个特性有时非常有用，比如使用 Set 保存一个回调函数列表，调用时就能保证按照添加顺序调用。
 
 ```js
-let set1 = new Set([4, 5, 6]);
-console.log(set1.keys()); // SetIterator {4, 5, 6}
-console.log(set1.values()); // SetIterator {4, 5, 6}
-console.log(set1.entries()); // SetIterator {4 => 4, 5 => 5, 6 => 6}
+let set1 = new Set([4, 5, 6])
+console.log(set1.keys()) // SetIterator {4, 5, 6}
+console.log(set1.values()) // SetIterator {4, 5, 6}
+console.log(set1.entries()) // SetIterator {4 => 4, 5 => 5, 6 => 6}
 
 for (let i of set1.keys()) {
-  console.log(i); // 4   5   6
+    console.log(i) // 4   5   6
 }
 for (let i of set1.entries()) {
-  console.log(i); // [4:4]  [5:5]  [6:6]
+    console.log(i) // [4:4]  [5:5]  [6:6]
 }
-console.log([...set1]); // [4,5,6]
+console.log([...set1]) // [4,5,6]
 ```
 
 `Set` 可默认遍历，默认迭代器生成函数是 `values()`方法
@@ -872,33 +899,33 @@ console.log([...set1]); // [4,5,6]
 可以直接用 `for...of` 循环遍历 `Set`。
 
 ```js
-Set.prototype[Symbol.iterator] === Set.prototype.values; // true
+Set.prototype[Symbol.iterator] === Set.prototype.values // true
 ```
 
 因此，`Set` 可以使用 `map`、`filter` 方法
 
 ```js
-let s = new Set([4, 5, 6]);
-s = new Set([...s].map(item => item * 2));
-console.log([...s]); // [8,10,12]
+let s = new Set([4, 5, 6])
+s = new Set([...s].map((item) => item * 2))
+console.log([...s]) // [8,10,12]
 
-s = new Set([...s].filter(item => item >= 10));
-console.log([...s]); // [10,12]
+s = new Set([...s].filter((item) => item >= 10))
+console.log([...s]) // [10,12]
 ```
 
 因此，实现交集，并集，差集变的易如反掌：
 
 ```js
-let s1 = new Set([1, 2, 3]);
-let s2 = new Set([2, 3, 4]);
+let s1 = new Set([1, 2, 3])
+let s2 = new Set([2, 3, 4])
 
-let intersect = new Set([...s1].filter(i => s2.has(i))); // 求交集
-let union = new Set([...s1, ...s2]); // 求并集
-let difference = new Set([...s1].filter(i => !s2.has(i))); // 求差集
+let intersect = new Set([...s1].filter((i) => s2.has(i))) // 求交集
+let union = new Set([...s1, ...s2]) // 求并集
+let difference = new Set([...s1].filter((i) => !s2.has(i))) // 求差集
 
-console.log(intersect); // set {2,3}
-console.log(union); // set {1,2,3,4}
-console.log(difference); // set {1}
+console.log(intersect) // set {2,3}
+console.log(union) // set {1,2,3,4}
+console.log(difference) // set {1}
 ```
 
 **Map**字典
@@ -908,45 +935,48 @@ console.log(difference); // set {1}
 集合是以[value,value,value]的形式来储存元素。字典是以[key,value]的形式来储存元素。
 
 ```js
-const m = new Map();
-const v = { name: "ziwen" };
-m.set(a, "yes");
-m.get(a); // yes
+const m = new Map()
+const v = { name: 'ziwen' }
+m.set(a, 'yes')
+m.get(a) // yes
 
-m.has(a); // true
-m.delete(a); // true
-m.has(a); // false
+m.has(a) // true
+m.delete(a) // true
+m.has(a) // false
 ```
 
 **任何具有 Iterator 接口，且每个成员都是一个双元素的数组的数据结构都可以当作 Map 构造函数的参数。**
 
 ```js
 const set = new Set([
-  ["a", 1],
-  ["b", 2]
-]);
-const m1 = new Map(set);
+    ['a', 1],
+    ['b', 2],
+])
+const m1 = new Map(set)
 
-m1.get("a"); // 1
-const m2 = new Map([["c", 2]]);
-const m3 = new Map(m2);
-m3.get("c"); // 2
+m1.get('a') // 1
+const m2 = new Map([['c', 2]])
+const m3 = new Map(m2)
+m3.get('c') // 2
 ```
-::: 
+
+:::
 
 ## 判断数据类型的方法
+
 ::: t
+
 #### typeof
 
 ```js
-typeof 9; // number
-typeof true; // boolean
-typeof "ziwen"; // string
-typeof undefined; // undefined
-typeof []; // object
-typeof {}; // object
-typeof function() {}; // function
-typeof null; // object
+typeof 9 // number
+typeof true // boolean
+typeof 'ziwen' // string
+typeof undefined // undefined
+typeof [] // object
+typeof {} // object
+typeof function() {} // function
+typeof null // object
 ```
 
 **优点：能够快速区分基本数据类型；缺点：不能区分 Object、Array 和 Null 区分，都返回 object**
@@ -967,39 +997,42 @@ function(){} instanceof Function; // true
 #### Object.prototype.toString.call()
 
 ```js
-let toString = Object.prototype.toString;
+let toString = Object.prototype.toString
 
-toString.call(6); // [object Number]
-toString.call("ziwen"); // [object String]
-toString.call(true); // [object Boolean]
-toString.call([]); // [object Array]
-toString.call({}); // [object object]
-toString.call(function() {}); // [object Function]
-toString.call(undefined); // [object Undefined]
-toString.call(null); // [object Null]
+toString.call(6) // [object Number]
+toString.call('ziwen') // [object String]
+toString.call(true) // [object Boolean]
+toString.call([]) // [object Array]
+toString.call({}) // [object Object]
+toString.call(function() {}) // [object Function]
+toString.call(undefined) // [object Undefined]
+toString.call(null) // [object Null]
 ```
 
 **优点：精准判断数据类型；缺点：写法繁琐，推荐封装后使用**
-::: 
+:::
+
 ## var、let、const 的区别
+
 ::: t
 `let` 与 `const` 为 `ES6` 新增
 
-- `var` 声明的变量会挂载在`window`上
-- `var` 声明的变量存在变量提升，`let`和`const`不会
-- `let`和`const` 形成块作用域
-- 同一作用域下`let`和`const` 不能声明同名变量，`var`可以
-- **暂时性死区(Temporal Dead Zone, TDZ)**，在代码块内，使用`let`声明变量之前，该变量都是不可用的。
+-   `var` 声明的变量会挂载在`window`上
+-   `var` 声明的变量存在变量提升，`let`和`const`不会
+-   `let`和`const` 形成块作用域
+-   同一作用域下`let`和`const` 不能声明同名变量，`var`可以
+-   **暂时性死区(Temporal Dead Zone, TDZ)**，在代码块内，使用`let`声明变量之前，该变量都是不可用的。
 
-  ```js
-  console.log(a);
-  let a; // ReferenceError
-  ```
+    ```js
+    console.log(a)
+    let a // ReferenceError
+    ```
 
-- const 一旦声明必须赋值，不能使用 null 占位。声明后不能再修改，如果声明的是复合类型的数据，可以修改其属性。
-::: 
+-   const 一旦声明必须赋值，不能使用 null 占位。声明后不能再修改，如果声明的是复合类型的数据，可以修改其属性。
+    :::
 
 ## 定义函数的方法
+
 ::: t
 
 函数声明：
@@ -1016,27 +1049,29 @@ function (){} // 匿名函数
 
 ```js
 // ES5
-var say = function() {};
+var say = function() {}
 // ES6
-let say = () => {};
+let say = () => {}
 ```
 
 构造函数：
 
 ```js
-const say = new Function("a", "b");
+const say = new Function('a', 'b')
 ```
-::: 
+
+:::
 
 ## [].slice.call(arguments)
+
 ::: t
 
 实现的功能：把类数组对象转为数组对象
 
 ```js
-[].slice.call(arguments);
+;[].slice.call(arguments)
 // 等效于
-Array.prototype.slice.call(arguments);
+Array.prototype.slice.call(arguments)
 ```
 
 slice()方法可以从已有数组中返回选定的元素，不会改变原来的数组，而是返回一个子数组。
@@ -1051,102 +1086,118 @@ slice 的原理就是根据传入的原数组或者类数组进行遍历获取�
 **可以理解为让类数组调用数组的方法**。
 
 `[].slice.call(arguments)`
-::: 
+:::
+
 ## 深拷贝
+
 ::: t
+
 > **乞丐版**
+
 ```js
 //定义检测数据类型的功能函数
 function chekType(target) {
-  return Object.prototype.toString.call(target).slice(8, -1);
+    return Object.prototype.toString.call(target).slice(8, -1)
 }
 //实现深度克隆---对象/数组
 function clone(target) {
-  //初始化变量result 成为最终克隆的数据
-  let result;
-  //判断拷贝的数据类型
-  let targetType = chekType(target);
-  if (targetType === "Object") {
-    result = {};
-  } else if (targetType === "Array") {
-    result = [];
-  } else {
-    return target;
-  }
-  //遍历目标数据
-  for (let i in target) {
-    //获取遍历数据结构的每一项值。
-    let value = target[i];
-    if (chekType(value) === "Object" || chekType(value) === "Array") {
-      //如果是对象或者数组，递归遍历
-      result[i] = clone(value);
+    //初始化变量result 成为最终克隆的数据
+    let result
+    //判断拷贝的数据类型
+    let targetType = chekType(target)
+    if (targetType === 'Object') {
+        result = {}
+    } else if (targetType === 'Array') {
+        result = []
     } else {
-      result[i] = value;
+        return target
     }
-  }
-  return result;
+    //遍历目标数据
+    for (let i in target) {
+        //获取遍历数据结构的每一项值。
+        let value = target[i]
+        if (chekType(value) === 'Object' || chekType(value) === 'Array') {
+            //如果是对象或者数组，递归遍历
+            result[i] = clone(value)
+        } else {
+            result[i] = value
+        }
+    }
+    return result
 }
 ```
+
 > **优雅版**
+
 ```javascript
-    const isComplexDataType = obj => (typeof obj === 'object' || 
-        typeof obj === 'function') && (obj !== null)
+const isComplexDataType = (obj) =>
+    (typeof obj === 'object' || typeof obj === 'function') && obj !== null
 
-    const deepClone = function (obj, hash = new WeakMap()) {
-      if(hash.has(obj)) return hash.get(obj)
-      let type = [Date,RegExp,Set,Map,WeakMap,WeakSet]
-      if(type.includes(obj.constructor)) return new obj.constructor(obj)
-      // 如果成环了，参数obj = obj.loop = 最初的obj 
-      // 会在WeakMap中找到第一次放入的obj提前返回第一次
-      // 放入WeakMap的cloneObj
+const deepClone = function(obj, hash = new WeakMap()) {
+    if (hash.has(obj)) return hash.get(obj)
+    let type = [Date, RegExp, Set, Map, WeakMap, WeakSet]
+    if (type.includes(obj.constructor)) return new obj.constructor(obj)
+    // 如果成环了，参数obj = obj.loop = 最初的obj
+    // 会在WeakMap中找到第一次放入的obj提前返回第一次
+    // 放入WeakMap的cloneObj
 
-      // 遍历传入参数所有键的特性  
-      let allDesc = Object.getOwnPropertyDescriptors(obj) 
-      // 继承原型
-      let cloneObj = Object.create(Object.getPrototypeOf(obj), allDesc) 
-      hash.set(obj,cloneObj)
-      for (let key of Reflect.ownKeys(obj)) {
+    // 遍历传入参数所有键的特性
+    let allDesc = Object.getOwnPropertyDescriptors(obj)
+    // 继承原型
+    let cloneObj = Object.create(Object.getPrototypeOf(obj), allDesc)
+    hash.set(obj, cloneObj)
+    for (let key of Reflect.ownKeys(obj)) {
         //  Reflect.ownKeys(obj)可以拷贝不可枚举属性和符号类型
         // 如果值是引用类型(非函数)则递归调用deepClone
         cloneObj[key] =
-          (isComplexDataType(obj[key]) && typeof obj[key] !== 'function') ?
-            deepClone(obj[key],hash) : obj[key]
-      }
-      return cloneObj
+            isComplexDataType(obj[key]) && typeof obj[key] !== 'function'
+                ? deepClone(obj[key], hash)
+                : obj[key]
     }
+    return cloneObj
+}
 ```
-::: 
+
+:::
+
 ## 手写 new 操作符
+
 ::: t
 new 的过程中做了哪些事：
 
-- 因为`new`的结果是一个新对象，创建了一个全新的对象;
-- 被创建的对象\_\_proto\_\_链接到构造函数的`prototype`对象上;
-- 被创建的对象绑定到函数调用的`this`;
-- 如果函数没有返回其它对象，那么`new`表达式中的函数调用会自动返回这个创建的新对象。
+-   因为`new`的结果是一个新对象，创建了一个全新的对象;
+-   被创建的对象\_\_proto\_\_链接到构造函数的`prototype`对象上;
+-   被创建的对象绑定到函数调用的`this`;
+-   如果函数没有返回其它对象，那么`new`表达式中的函数调用会自动返回这个创建的新对象。
 
 ```js
 function New(f) {
-  var res = Object.create(null);
-  if (f.prototype !== null) {
-    res.__proto__ = f.prototype;
-  }
-  var ret = f.apply(res, Array.prototype.slice.call(arguments, 1));
-  if ((typeof ret === "object" || typeof ret === "function") && ret !== null) {
-    return ret;
-  }
-  return res;
+    var res = Object.create(null)
+    if (f.prototype !== null) {
+        res.__proto__ = f.prototype
+    }
+    var ret = f.apply(res, Array.prototype.slice.call(arguments, 1))
+    if (
+        (typeof ret === 'object' || typeof ret === 'function') &&
+        ret !== null
+    ) {
+        return ret
+    }
+    return res
 }
-var obj = New();
+var obj = New()
 ```
-::: 
+
+:::
+
 ## common.js 和 es6 中模块引入的区别？
+
 ::: t
 `CommonJS` 是一种模块规范，最初被应用于 `Nodejs`，成为 `Nodejs` 的模块规范。运行在浏览器端的 `JavaScript` 由于也缺少类似的规范，在 `ES6` 出来之前，前端也实现了一套相同的模块规范 (例如: `AMD`)，用来对前端模块进行管理。自 `ES6` 起，引入了一套新的 `ES6 Module` 规范，在语言标准的层面上实现了模块功能，而且实现得相当简单，有望成为浏览器和服务器通用的模块解决方案。但目前浏览器对 `ES6 Module` 兼容还不太好，我们平时在 `Webpack` 中使用的 `export` 和 `import`，会经过 `Babel` 转换为 `CommonJS` 规范。在使用上的差别主要有：
 
-- `CommonJS` 模块输出的是一个值的拷贝，`ES6` 模块输出的是值的引用。
-- `CommonJS` 模块是运行时加载，`ES6` 模块是编译时输出接口。
-- `CommonJs` 是单个值导出，`ES6 Module` 可以导出多个。
-- `CommonJs` 是动态语法可以写在判断里，`ES6 Module` 静态语法只能写在顶层。
-- `CommonJs` 的 `this` 是当前模块，`ES6 Module` 的 `this` 是 `undefined`。
-::: 
+-   `CommonJS` 模块输出的是一个值的拷贝，`ES6` 模块输出的是值的引用。
+-   `CommonJS` 模块是运行时加载，`ES6` 模块是编译时输出接口。
+-   `CommonJs` 是单个值导出，`ES6 Module` 可以导出多个。
+-   `CommonJs` 是动态语法可以写在判断里，`ES6 Module` 静态语法只能写在顶层。
+-   `CommonJs` 的 `this` 是当前模块，`ES6 Module` 的 `this` 是 `undefined`。
+    :::

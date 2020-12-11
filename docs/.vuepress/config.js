@@ -111,6 +111,10 @@ module.exports = {
                     children: ['/question/1/js.md'],
                 },
                 {
+                    title: 'TypeScript篇',
+                    children: ['/question/ts/start.md'],
+                },
+                {
                     title: '框架篇',
                     children: [
                         '/question/2/mvvm.md',

@@ -10,17 +10,51 @@
 
 ### 使用 stylelint 工具对 css 样式[代码进行检查](https://www.npmjs.com/package/stylelint-config-standard)
 
+## 注释
+
+::: t
+ 类、方法务必加上`jsDoc`注释。`jsDoc`的好处不必多说。（TypeScript自带魔法）
+ 
+ 写完方法后在方法上方`/**` 然后回车自动生成（视编辑器而定，大部分新版 `vscode` 与 `webstorm`都支持）
+ 
+ 尽量减少 `//` 此类的注释
+ 
+ 加上jsDoc注释后：
+ - 方便后期维护，减少后期不必要的麻烦，减少后人骂代码作者的风险🐩
+ - 最最重要的是，调用此方法的时候编辑器给你的提示，不比你回去翻代码香吗？
+:::
+
+```javascript
+/**
+* @description 功能：将时间戳格式化为指定格式的字符串
+* @param {Number} milliSec - 要转换的时间，可以为秒、毫秒、微秒、或Date类型
+* @param {String} [formatStr] - 目标格式字符串 可选 默认为：'yyyy-MM-dd hh:mm:ss'
+* @returns {String} - 根据目标时间格式，将时间数值（或Date）转换成的时间字符串
+* @author ziwen
+*/
+export function formatTime({ milliSec, formatStr = DEFAULT_FORMAT_STR }) {
+    // code
+}
+
+```
+
 ## 命名
 
-### `JS` 采用 `Camel Case` 小驼峰式命名
+### 变量 采用 `Camel Case` 小驼峰式命名
 
 ```js
-studentInfot;
+let userInfo;
+```
+
+### 常量 采用 全`大写`或加`_`分割命名
+
+```js
+const ERROR_CODE = 200;
 ```
 
 ### 避免名称冗余
 
-bad：
+`bad：`
 
 ```js
 const Car = {
@@ -30,7 +64,7 @@ const Car = {
 };
 ```
 
-good:
+`good:`
 
 ```js
 const Car = {
@@ -40,14 +74,13 @@ const Car = {
 };
 ```
 
-- `CSS` 类名采用 `BEM` 命名规范
-  good:
+`CSS` 类名采用 `BEM` 命名规范
+  
+`good:`
 
 ```css
-.block__element {
-}
-.block--modifier {
-}
+.block__element {}
+.block--modifier {}
 ```
 
 ### 命名符合语义化
@@ -62,7 +95,7 @@ const Car = {
 | get  | 获取某个值             |
 | set  | 设置某个值             |
 
-good:
+`good:`
 
 ```js
 //是否可查看
@@ -79,13 +112,13 @@ function getName{
 
 ### 每个常量应该命名，不然看代码的人不知道这个常量表示什么意思。
 
-bad:
+`bad:`
 
 ```js
 let row = Math.ceil(num / 10);
 ```
 
-good:
+`good:`
 
 ```js
 const COL_NUM = 10;
@@ -96,7 +129,7 @@ let row = Math.ceil(num / COL_NUM);
 
 创建对象和数组推荐使用字面量，因为这不仅是性能最优也有助于节省代码量。
 
-bad:
+`bad:`
 
 ```js
 let obj = {};
@@ -105,7 +138,7 @@ obj.age = 18;
 obj.sex = "男";
 ```
 
-good:
+`good:`
 
 ```js
 let obj = {
@@ -117,7 +150,7 @@ let obj = {
 
 ### 对象设置默认属性的推荐写法
 
-good:
+`good:`
 
 ```js
 const menuConfig = {
@@ -146,7 +179,7 @@ function createMenu(config) {
 createMenu(menuConfig);
 ```
 
-bad:
+`bad:`
 
 ```js
 const menuConfig = {
@@ -171,7 +204,7 @@ createMenu(menuConfig);
 
 对象成员嵌套越深，读取速度也就越慢。所以好的经验法则是：如果在函数中需要多次读取一个对象属性，最佳做法是将该属性值保存在局部变量中，避免多次查找带来的性能开销。
 
-good:
+`good:`
 
 ```js
 let person = {
@@ -187,7 +220,7 @@ function getMaleSex() {
 }
 ```
 
-bad:
+`bad:`
 
 ```js
 let person = {
@@ -206,13 +239,13 @@ function getMaleSex() {
 
 当需要将浮点数转换成整型时，应该使用 Math.floor()或者 Math.round()，而不是使用 parseInt()将字符串转换成数字。Math 是内部对象，所以 Math.floor()`其实并没有多少查询方法和调用时间，速度是最快的。
 
-good:
+`good:`
 
 ```js
 let num = Math.floor("1.9");
 ```
 
-bad:
+`bad:`
 
 ```js
 let num = parseInt("1.9");
@@ -222,7 +255,7 @@ let num = parseInt("1.9");
 
 函数参数越少越好，如果参数超过两个，要使用 ES6 的解构语法，不用考虑参数的顺序。
 
-good:
+`good:`
 
 ```js
 function createMenu({ title, body, buttonText, cancellable }) {
@@ -237,7 +270,7 @@ createMenu({
 });
 ```
 
-bad:
+`bad:`
 
 ```js
 function createMenu(title, body, buttonText, cancellable) {
@@ -249,7 +282,7 @@ function createMenu(title, body, buttonText, cancellable) {
 
 使用参数默认值 替代 使用条件语句进行赋值。
 
-good:
+`good:`
 
 ```js
 function createMicrobrewery(name = "Hipster Brew Co.") {
@@ -257,7 +290,7 @@ function createMicrobrewery(name = "Hipster Brew Co.") {
 }
 ```
 
-bad:
+`bad:`
 
 ```js
 function createMicrobrewery(name) {
@@ -272,7 +305,7 @@ function createMicrobrewery(name) {
 >
 > 举个例子，比如你在 `Array.prototype` 上新增一个 `diff` 方法来判断两个数组的不同。而你同事也打算做类似的事情，不过他的 `diff` 方法是用来判断两个数组首位元素的不同。很明显你们方法会产生冲突，遇到这类问题我们可以用 `ES2015/ES6` 的语法来对 `Array` 进行扩展。
 
-good:
+`good:`
 
 ```js
 class SuperArray extends Array {
@@ -283,7 +316,7 @@ class SuperArray extends Array {
 }
 ```
 
-bad:
+`bad:`
 
 ```js
 Array.prototype.diff = function diff(comparisonArray) {
@@ -296,7 +329,7 @@ Array.prototype.diff = function diff(comparisonArray) {
 
 > 函数式变编程可以让代码的逻辑更清晰更优雅，方便测试。
 
-good:
+`good:`
 
 ```js
 const programmerOutput = [
@@ -322,7 +355,7 @@ let totalOutput = programmerOutput
   .reduce((totalLines, lines) => totalLines + lines, 0);
 ```
 
-bad:
+`bad:`
 
 ```js
 const programmerOutput = [
@@ -355,7 +388,7 @@ for (let i = 0; i < programmerOutput.length; i++) {
 
 > 为了让代码更简洁易读，如果你的函数中出现了条件判断，那么说明你的函数不止干了一件事情，违反了函数单一原则 ；并且绝大数场景可以使用多态替代
 
-good:
+`good:`
 
 ```js
 class Airplane {
@@ -384,7 +417,7 @@ class Cessna extends Airplane {
 }
 ```
 
-bad:
+`bad:`
 
 ```js
 class Airplane {
@@ -414,7 +447,7 @@ class Airplane {
 
 > 我们开发过程中自定义的组件的名称需要为多个单词，这样做可以避免跟现有的以及未来的 `HTML` 元素相冲突，因为所有的 `HTML` 元素名称都是单个单词的。
 
-good:
+`good:`
 
 ```js
 Vue.component("todo-item", {
@@ -427,7 +460,7 @@ export default {
 };
 ```
 
-bad:
+`bad:`
 
 ```js
 Vue.component("todo", {
@@ -455,7 +488,7 @@ export default {
 };
 ```
 
-bad:
+`bad:`
 
 ```js
 export default {
@@ -469,7 +502,7 @@ export default {
 
 > prop 的定义应该尽量详细，至少需要指定其类型。
 
-good:
+`good:`
 
 ```js
 props: {
@@ -488,7 +521,7 @@ props: {
 }
 ```
 
-bad:
+`bad:`
 
 ```js
 props: {
@@ -500,7 +533,7 @@ props: {
 
 > v-for 中总是有设置 key 值。在组件上总是必须用 key 配合 v-for，以便维护内部组件及其子树的状态。
 
-good:
+`good:`
 
 ```js
 <ul>
@@ -512,7 +545,7 @@ good:
 </ul>
 ```
 
-bad:
+`bad:`
 
 ```js
 <ul>
@@ -526,7 +559,7 @@ bad:
 
 > 组件名应该倾向于完整单词而不是缩写，编辑器中的自动补全已经让书写长命名的代价非常之低了，而其带来的明确性却是非常宝贵的。不常用的缩写尤其应该避免。
 
-good:
+`good:`
 
 ```js
 components/
@@ -534,7 +567,7 @@ components/
 |- UserProfileOptions.vue
 ```
 
-bad:
+`bad:`
 
 ```js
 components/
@@ -546,7 +579,7 @@ components/
 
 > 在 JavaScript 中，用多行分隔对象的多个属性是很常见的最佳实践，因为这样更易读。
 
-good:
+`good:`
 
 ```js
 <MyComponent 
@@ -556,7 +589,7 @@ good:
     />
 ```
 
-bad:
+`bad:`
 
 ```js
 <MyComponent foo="a" bar="b" baz="c" />
@@ -566,7 +599,7 @@ bad:
 
 > 组件模板应该只包含简单的表达式，复杂的表达式则应该重构为计算属性或方法。复杂表达式会让你的模板变得不那么声明式。我们应该尽量描述应该出现的是什么，而非如何计算那个值。而且计算属性和方法使得代码可以重用。
 
-good:
+`good:`
 
 ```js
 <!-- 在模板中 -->
@@ -582,8 +615,7 @@ computed: {
 }
 ```
 
-bad:
-
+`bad:`
 ```js
 {
   {
@@ -600,7 +632,8 @@ bad:
 ### 简单的计算属性
 
 > 应该把复杂计算属性分割为尽可能多的更简单的属性。
-> good:
+
+` good:`
 
 ```js
 computed: {
@@ -615,7 +648,7 @@ computed: {
   }
 }
 ```
-bad:
+`bad:`
 
 ```js
 computed: {
@@ -631,7 +664,7 @@ computed: {
 ### 标签顺序保持一致
 > 单文件组件应该总是让标签顺序保持为 `<template>`、`<script>`、 `<style>` 。
 
-good:
+`good:`
 ```js
 <!-- ComponentA.vue -->
 
@@ -640,7 +673,7 @@ good:
 <style>/* ... */</style>
 ```
 
-bad:
+`bad:`
 ```js
 <!-- ComponentA.vue -->
 
@@ -660,7 +693,7 @@ bad:
 ### 页面跳转数据传递
 > 页面跳转，例如 `A` 页面跳转到 `B` 页面，需要将 `A` 页面的数据传递到 `B` 页面，推荐使用 路由参数进行传参，而不是将需要传递的数据保存 `vuex`，然后在 `B` 页面取出 `vuex`的数据，因为如果在 `B` 页面刷新会导致 `vuex` 数据丢失，导致 `B` 页面无法正常显示数据。
 
-good:
+`good:`
 
 ```js
 let id = ' 123';
@@ -686,7 +719,7 @@ this.$router.push({name: 'homeworkinfo', query: {id:id}});
 
 > 利用 `scss` 中的变量配置，可以进行项目的颜色、字体大小统一更改（换肤），有利于后期项目的维护。
 
-good:
+`good:`
 
 ```css
 $--color-success: #67c23a;
@@ -716,7 +749,7 @@ $--color-info: #909399;
 
 > `scss`的嵌套和父选择器标识符&能解决`BEM`命名的冗长，且使样式可读性更高。
 
-good:
+`good:`
 
 ```css
 .el-input {

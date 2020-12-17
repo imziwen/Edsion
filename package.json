@@ -17,7 +17,6 @@
     "valine": "^1.3.10",
     "vue": "^2.6.11",
     "vue-router": "^3.1.3",
-    "vue-video-player": "^5.0.2",
     "vuepress-plugin-container": "^2.1.2"
   },
   "devDependencies": {
@@ -35,7 +34,7 @@
     "@babel/preset-env": "^7.7.7",
     "@vuepress/plugin-active-header-links": "^1.2.0",
     "@vuepress/plugin-back-to-top": "^1.2.0",
-    "@vuepress/plugin-medium-zoom": "^1.4.1",
+    "@vuepress/plugin-medium-zoom": "^1.2.0",
     "@vuepress/plugin-nprogress": "^1.2.0",
     "autoprefixer": "^9.7.3",
     "babel-eslint": "^10.0.3",
@@ -44,7 +43,6 @@
     "babel-plugin-syntax-jsx": "^6.1.8",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "chalk": "^3.0.0",
-    "compression-webpack-plugin": "^3.1.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.1",
     "eslint": "^6",
@@ -78,7 +76,7 @@
     "vue-template-compiler": "^2.6.11",
     "vuepress": "^1.2.0",
     "webpack": "^4.41.5",
-    "webpack-bundle-analyzer": "^3.6.1",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3",
     "webpack-merge": "^4.2.2"

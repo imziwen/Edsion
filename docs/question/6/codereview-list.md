@@ -13,7 +13,7 @@
 ## 注释
 
 ::: t
- 类、方法务必加上`jsDoc`注释。`jsDoc`的好处不必多说。（TypeScript自带魔法）
+ 类、方法务必加上`jsDoc`注释。`jsDoc`的好处不必多说。（TypeScript自带魔法）.
  
  写完方法后在方法上方`/**` 然后回车自动生成（视编辑器而定，大部分新版 `vscode` 与 `webstorm`都支持）
  

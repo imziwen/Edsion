@@ -1,7 +1,13 @@
-# 笔记本
+<!-- # 笔记本 -->
 
-::: t
-工作中使用的 **前端知识** 点都逐步记录在此，方便以后查阅。
+<!-- ::: t -->
 
-<img src="/img/wechat.png" alt="子文" title="子文" class="zoom-custom-imgs">
-:::
+**<p style="text-align:center">不怕从零开始，只怕从未开始！</p>**
+
+<img src="/img/home/home02.jpeg" alt="子文" title="子文" class="zoom-custom-imgs">
+<br/>
+<div style="text-align:center">
+<img src="/img/home/wechat.png" alt="子文" title="子文" class="zoom-custom-imgs">
+</div>
+
+<!-- ::: -->

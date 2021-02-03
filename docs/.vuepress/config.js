@@ -70,41 +70,13 @@ module.exports = {
         smoothScroll: true,
         logo: '/img/Javascript.gif',
         nav: [
+            { text: '周边', link: '/think/' },
             { text: '笔记(更新中...)', link: '/question/' },
             // { text: "打下基础", link: "/notes/" },
             // { text: "小思考", link: "/think/" }
         ],
         sidebar: 'auto',
         sidebar: {
-            // "/notes/": [
-            //   {
-            //     title: "调用堆栈",
-            //     children: [
-            //       // "/notes/1/执行上下文栈和变量对象.md"
-            //       "/notes/1/执行上下文与执行栈.md",
-            //       "/notes/1/执行上下文栈与变量对象.md"
-            //     ]
-            //   },
-            //   {
-            //     title: "作用域闭包",
-            //     children: [
-            //       "/notes/2/深入浅出作用域和闭包.md",
-            //       "/notes/2/从作用域链理解闭包.md"
-            //     ]
-            //   },
-            //   {
-            //     title: "webpack原理",
-            //     children: ["/notes/17/webpack浅入深出.md"]
-            //   },
-            //   {
-            //     title: "函数",
-            //     children: ["/notes/18/函数形参默认值", "/notes/18/箭头函数"]
-            //   },
-            //   {
-            //     title: "关于this",
-            //     children: ["/notes/19/this全面解析"]
-            //   }
-            // ],
             '/question/': [
                 {
                     title: 'JavaScript篇',
@@ -174,6 +146,12 @@ module.exports = {
                         '/question/4/https.md',
                         '/question/4/browsercache.md',
                     ],
+                },
+            ],
+            '/think/': [
+                {
+                    title: '效率',
+                    children: ['/think/picgo/picgo.md'],
                 },
             ],
         },

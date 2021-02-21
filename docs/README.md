@@ -18,6 +18,6 @@ actionLink: /question/
 ---
 
 ::: tip 🤔
-唯有记录，才能传承！！
+唯有记录，才能传承！
 :::
 <foot/>

@@ -76,7 +76,7 @@ module.exports = {
             // { text: "打下基础", link: "/notes/" },
             // { text: "小思考", link: "/think/" }
         ],
-        sidebar: 'auto',
+        // sidebar: 'auto',
         sidebar: {
             '/question/': [
                 {
@@ -153,7 +153,10 @@ module.exports = {
             '/think/': [
                 {
                     title: '效率',
-                    children: ['/think/picgo/picgo.md'],
+                    children: [
+                        '/think/picgo/picgo.md',
+                        '/think/git/fastGitClone.md'
+                    ],
                 },
             ],
         },

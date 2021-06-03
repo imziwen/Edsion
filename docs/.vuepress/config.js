@@ -63,6 +63,7 @@ module.exports = {
             },
         ],
         ['meta', { name: 'author', content: 'ziwen,okziwen@foxmail.com' }],
+        ['meta', { name: 'keywords', content: '子文、前端基础笔记、前端进阶、大前端、JavaScript' }],
         ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
         ['meta', { name: 'apple-mobile-web-app-title', content: 'ziwen' }],
     ],
@@ -113,6 +114,7 @@ module.exports = {
                         '/question/6/project.md',
                         '/question/6/webpackyh.md',
                         '/question/6/codereview-list.md',
+                        '/question/6/dotenv.md',
                     ],
                 },
                 {
